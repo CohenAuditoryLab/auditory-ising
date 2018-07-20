@@ -1,4 +1,12 @@
-function all_violations = isi_plots(directory)
+function all_violations = isi_plots(directory, save_on)
+%% Function calculates isi violations for set of neurons.  
+%
+% DIRECTORY is the folder in which the file 'CohenNeurons.mat' is found.
+% This file should refer to the neurons to be calculated.
+%
+% SAVE_ON is a string. If the string is 'y', then all the individual ISI
+% histograms will be automatically saved in a new folder in DIRECTORY.  
+% Otherwise, they will not be produced.
 
 %create folder to save plots
 mkdir(directory, 'isi_plots');
@@ -33,18 +41,20 @@ for n = 1:num_neurons
     violation_rate = sum(isi < 3) / length(isi);
     all_violations(n) = violation_rate;
     
+    if strcmp(save_on, 'y')
     %plot histogram
-%     figure();
-%     h = histogram(isi, 0:5:1000);
-%     title(['Interspike Interval Histogram, Neuron ' num2str(neuron_num) ...
-%         '; Violation Rate: ' num2str(violation_rate*100) '%']);
-%     xlabel('Interval (ms)');
-%     ylabel('Frequency');
-%     set(gca, 'FontSize', 8);
-    
-    %save
-%     filename = [directory filesep 'isi_plots' filesep 'isi_neuron_' num2str(neuron_num)];
-%     print(filename, '-dpng');
+        figure();
+        h = histogram(isi, 0:5:1000);
+        title(['Interspike Interval Histogram, Neuron ' num2str(neuron_num) ...
+            '; Violation Rate: ' num2str(violation_rate*100) '%']);
+        xlabel('Interval (ms)');
+        ylabel('Frequency');
+        set(gca, 'FontSize', 8);
+
+        %save
+        filename = [directory filesep 'isi_plots' filesep 'isi_neuron_' num2str(neuron_num)];
+        print(filename, '-dpng');
+    end
 end
 
 %close all the figures
@@ -52,18 +62,8 @@ close all;
 
 labels = categorical(cell2mat({CohenNeurons(:).ID}));
 bar(labels, all_violations)
+title('Fraction of ISI Violations');
+xlabel('Neuron');
+ylabel('Fraction Violations/# Spikes');
 
 end
-
-% function plotRaster(tVec)
-% hold all;
-% for trialCount = 1:size(tVec,2)
-%     spikePos = tVec{trialCount};
-%     spikePos = spikePos(spikePos > 0);
-%     for spikeCount = 1:length(spikePos)
-%         plot([spikePos(spikeCount) spikePos(spikeCount)], ...
-%             [trialCount-0.4 trialCount+0.4], 'k');
-%     end
-% end
-% ylim([0 size(tVec, 2)+1]);
-% end 
