@@ -1,8 +1,9 @@
-function BoltzmannMetrics 
+function BoltzmannMetrics(directory) 
 %% Run all ising code and related metrics.
 
 %% Define file path to neuron trains for group of neurons in question.
-filepath = '190_207/neuron_trains.mat';
+% filepath = 'Domo_Data/ALL_Domo_20180711_Vocalization_d01_finalclusters/neuron_trains.mat';
+filepath = [directory filesep 'neuron_trains.mat'];
 
 %% Run estimate_ising 
 %  This produces plots of deviation over iterations, empirical vs.
@@ -30,36 +31,36 @@ plot_num_firing_v2(h0, J, test_logical, train_logical, filepath);
 
 %% 
 
-directory = '190_207';
-isi_plots(directory);
+% directory = 'Domo_Data/ALL_Domo_20180711_Vocalization_d01_finalclusters/';
+% isi_plots(directory);
 
 %% Probabilities of the activity configurations
 
 % try to load data from file 
 
-try
-    disp('Loading whole pattern frequencies...');
-    
-    load([directory filesep pattern_freqs2.mat]);
-    
-    figure();
-    loglog(observed, ind, '.c', 'MarkerSize', 10);
-    hold on;
-    loglog(observed, ising, '.b', 'MarkerSize', 10);
-    legend({'Independent', 'Ising'}, 'Location', 'SouthEast');
-    set(gca, 'FontSize', 14);
-    title('Whole Pattern Frequencies');
-    xlabel('Observed Frequencies (Hz)');
-    ylabel('Predicted Frequencies (Hz)');
-    lin = linspace(10^(-2), 10^2,100);
-    plot(lin, lin, 'k', 'Linewidth', .75);
-    
-% if not found, recompute (this will take a while) 
-catch 
-    disp('File not found. Computing whole pattern frequencies...');
-
-    pattern_frequencies(h0, J, test_logical, filepath);
-end
+% try
+%     disp('Loading whole pattern frequencies...');
+%     
+%     load([directory filesep pattern_freqs2.mat]);
+%     
+%     figure();
+%     loglog(observed, ind, '.c', 'MarkerSize', 10);
+%     hold on;
+%     loglog(observed, ising, '.b', 'MarkerSize', 10);
+%     legend({'Independent', 'Ising'}, 'Location', 'SouthEast');
+%     set(gca, 'FontSize', 14);
+%     title('Whole Pattern Frequencies');
+%     xlabel('Observed Frequencies (Hz)');
+%     ylabel('Predicted Frequencies (Hz)');
+%     lin = linspace(10^(-2), 10^2,100);
+%     plot(lin, lin, 'k', 'Linewidth', .75);
+%     
+% % if not found, recompute (this will take a while) 
+% catch 
+%     disp('File not found. Computing whole pattern frequencies...');
+% 
+%     pattern_frequencies(h0, J, test_logical, filepath);
+% end
 
 %% Compute whole pattern frequencies on a subset of k neurons 
 
