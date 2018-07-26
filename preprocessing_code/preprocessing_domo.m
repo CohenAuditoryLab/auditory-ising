@@ -1,11 +1,14 @@
-function preprocessing_domo(tank)
+function preprocessing_domo(tank, trial_length)
+% Used to prepare data for all neurons, all spikes Ising models.
 % Takes in TANK as an argument - this is the path to the Domo data that came 
 % from NeuronDecisions.m.  Produces files for the entire pre-processing
 % pipeline, customized to the format of this data.
+% Also requires TRIAL_LENGTH in ms. Usually an approximation of the last
+% time point.  Will produce 20000 bins based on this time.
 
 %% create CohenNeurons file
 tank_data = load(tank);
-tank_data = tank_data.g;
+tank_data = tank_data.auditory_tank;
 
 neurons = unique(tank_data(:,1));
 num_neurons = length(neurons);
@@ -27,8 +30,7 @@ save('CohenNeurons.mat', 'CohenNeurons');
 % m-by-k-by-n matrix with m matrices (1 for each neuron), k rows of trials
 % and n = 2001 columns for (1) TNR and (2000) times in spike train.
 
-bin_length = 400;
-trial_length = 8e6;
+bin_length = trial_length/20000;
 
 num_trials = 1;
 
