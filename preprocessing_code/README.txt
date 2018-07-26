@@ -1,7 +1,3 @@
-Files for processing original Sharath data are located in SHARATH.
-
-Files for processing Domo data from Taku are located in DOMO.
-
 A description of the purpose of all functions: 
 
 PREPROCESSING2 - handles the preprocessing of Sharath data.  Neuron IDs on line 3 should be changed from data set to data set. Outputs CohenNeurons.mat (structure of neurons and spike times).
