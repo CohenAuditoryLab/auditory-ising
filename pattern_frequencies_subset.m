@@ -49,7 +49,7 @@ for i = 1:numpat
     disp(['Frequencies: ' num2str(freq)]);
 end 
 
-save('pattern_freqs_subset.mat', 'observed', 'ising', 'ind');
+% save('pattern_freqs_subset.mat', 'observed', 'ising', 'ind');
 %% plot on log-log scale 
 
 figure();
