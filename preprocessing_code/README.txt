@@ -1,6 +1,6 @@
 A description of the purpose of all functions: 
 
-PREPROCESSING2 - handles the preprocessing of Sharath data.  Neuron IDs on line 3 should be changed from data set to data set. Outputs CohenNeurons.mat (structure of neurons and spike times).
+PREPROCESSING2 - handles the preprocessing of Sharath data.  Neuron IDs on line 3 should be changed accordingly. Outputs CohenNeurons.mat (structure of neurons and spike times).
 
 SPIKE_TRAIN_GENERATOR2 - the full pipeline for processing Sharath data. Should be run from directory containing CohenNeurons.mat.
 
