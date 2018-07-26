@@ -16,5 +16,5 @@ PREPROCESSING_DOMO - handles the preprocessing of Domo data for use in Ising mod
 
 FIND_AUDITORY_NEURONS - Takes a sorted tank of Domo data (from wave_clus) and the corresponding behavioral data and determines the auditory neurons by comparing the number of spikes when the stimulus is off to the number of spikes when the stimulus is on.
 
-AUDITORY_AFTER_STIM - produces a trial-by-trial CohenNeurons.mat file from Domo data tank (intended to be used with auditory neurons output from FIND_AUDITORY_NEURONS.M).  Output file can be used in other preprocessing functions in the pipeline, as described above.
+AUDITORY_AFTER_STIM - produces a trial-by-trial CohenNeurons.mat file from Domo data tank (intended to be used with auditory neurons output from FIND_AUDITORY_NEURONS.M).  Output file can be used in other preprocessing functions in the pipeline, as described above. Treats stimulus difference as TNR for postprocessing purposes.
 
