@@ -11,9 +11,6 @@ function find_auditory_neurons(tank_path, tank_name, behavioral_data)
 
 behavdata = load(behavioral_data);
 
-% need stim on time, behavior (exclude trials 3 and 4, save one 3 for
-% reference of off) 
-
 stim_onset_data = behavdata.StimOnTime;
 stim_type = behavdata.index;
 
@@ -45,7 +42,7 @@ stimulus_off_all = cell(num_neurons, length(stim_off_end));
 
 for i = 1:num_neurons
     % get spike times for that neuron
-    neuron_times = tank_data(tank_data(:,1) == neurons(i), 2);
+    neuron_times = tank_data(tank_data(:,1) == neurons(i), 2)/1e3; %convert to seconds
     for j = 1:length(stim_off_end)
         % reduce to spike times between start & end 
         neuron_times_off = neuron_times(neuron_times >= stim_off_start(j) & neuron_times <= stim_off_end(j));
@@ -62,7 +59,7 @@ stimulus_on_all = cell(num_neurons, num_trials);
 %For each neuron...
 for i = 1:num_neurons
     %get times for neuron
-    neuron_times = tank_data(tank_data(:,1) == neurons(i), 2);
+    neuron_times = tank_data(tank_data(:,1) == neurons(i), 2)/1e3 %convert to seconds;
     %For each trial..
     for j = 1:num_trials
         %get times pertaining to trial (between on and offset)
@@ -97,7 +94,7 @@ for i = 1:num_neurons
     histogram(on); hold on;
     histogram(off);
     legend({'On', 'Off'});
-    print(['spike_counts_neuron_' num2str(neurons(i))], '-dpng')
+%     print(['spike_counts_neuron_' num2str(neurons(i))], '-dpng')
     
     pause(2);
     
@@ -129,6 +126,7 @@ for i = 1:num_neurons
     end 
 end 
 
+disp('a');
 % save([tank_path filesep 'Auditory' filesep 'auditory_tank.mat'], 'auditory_tank');
 % save([tank_path filesep 'Non-Auditory' filesep 'non_auditory_tank.mat'], 'nonaud_tank');
 end 

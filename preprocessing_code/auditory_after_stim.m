@@ -2,10 +2,12 @@
 %  into trials, and spike times centered around stimulus onset.
 
 %% load tank containing only auditory neurons
-load('Domo_Data/ALL_Domo_20180711_ABBA_d01_finalclusters/Auditory/auditory_tank/auditory_tank.mat');
+load('auditory_tank/auditory_tank.mat');
 
 neurons = unique(auditory_tank(:,1));
 num_neurons = length(neurons);
+
+auditory_tank(:,2) = auditory_tank(:,2)/1e3;
 
 %% load behavioral data to get stim onset times
 behav = load('PreProcessing_Code/Domo/20180711_ABBA_spike.mat');
