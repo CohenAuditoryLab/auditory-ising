@@ -2,17 +2,17 @@
 %  into trials, and spike times centered around stimulus onset.
 
 %% load tank containing only auditory neurons
-load('auditory_tank/auditory_tank.mat');
+load('Domo_Data/ALL_Domo_20180711_ABBA_d01_finalclusters/auditory_neurons/auditory_neurons.mat');
 
 neurons = unique(auditory_tank(:,1));
 num_neurons = length(neurons);
 
-auditory_tank(:,2) = auditory_tank(:,2)/1e3;
+auditory_tank(:,2) = auditory_tank(:,2);
 
 %% load behavioral data to get stim onset times
 behav = load('PreProcessing_Code/Domo/20180711_ABBA_spike.mat');
 
-stim_onset = behav.StimOnTime;
+stim_onset = behav.StimOnTime * 1e3; %convert from s to ms
 behav_type = behav.index;
 tone_sep = behav.stDiff;
 
