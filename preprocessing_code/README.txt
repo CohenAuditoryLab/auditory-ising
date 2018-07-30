@@ -18,3 +18,4 @@ FIND_AUDITORY_NEURONS - Takes a sorted tank of Domo data (from wave_clus) and th
 
 AUDITORY_AFTER_STIM - produces a trial-by-trial CohenNeurons.mat file from Domo data tank (intended to be used with auditory neurons output from FIND_AUDITORY_NEURONS.M).  Output file can be used in other preprocessing functions in the pipeline, as described above. Treats stimulus difference as TNR for postprocessing purposes.
 
+TDT2ISING - converts TDT spike timestamps (in Taku's format, where stim on time is in seconds and spike time is in ms, centered around the stimulus onset) into format to be run in Ising models, where each channel is treated as a single cell.
