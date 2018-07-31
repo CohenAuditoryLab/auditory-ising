@@ -13,13 +13,13 @@ filepath = [directory filesep 'neuron_trains.mat'];
 disp('Solving inverse ising problem...');
 
 [h0, J, fr_model, fr_exp, corr_model, corr_exp, test_logical, train_exp_corr, train_corr, train_logical] ...
-    = estimate_ising_v2(100, filepath);
+    = estimate_ising_v2(100, directory);
 
 %% Produce plot for 3rd order interactions.
 
 disp('Computing third order correlations...');
 
-Ising_Pijk(corr_model, corr_exp, train_corr, train_exp_corr);
+Ising_Pijk(corr_model, corr_exp, train_corr, train_exp_corr, directory);
 
 %% Probability of k neurons to be simultaneously active in a time bin of 
 %  duration delta_t = 10 ms.
@@ -27,12 +27,7 @@ Ising_Pijk(corr_model, corr_exp, train_corr, train_exp_corr);
 disp('Computing probability of k simultaneously firing neurons...');
 
 plot_num_firing(h0, J, test_logical, filepath);
-plot_num_firing_v2(h0, J, test_logical, train_logical, filepath);
-
-%% 
-
-% directory = 'Domo_Data/ALL_Domo_20180711_Vocalization_d01_finalclusters/';
-% isi_plots(directory);
+plot_num_firing_v2(h0, J, test_logical, train_logical, directory);
 
 %% Probabilities of the activity configurations
 
@@ -41,7 +36,7 @@ plot_num_firing_v2(h0, J, test_logical, train_logical, filepath);
 % try
 %     disp('Loading whole pattern frequencies...');
 %     
-%     load([directory filesep pattern_freqs2.mat]);
+%     load([directory filesep pattern_freqs.mat]);
 %     
 %     figure();
 %     loglog(observed, ind, '.c', 'MarkerSize', 10);
@@ -65,7 +60,7 @@ plot_num_firing_v2(h0, J, test_logical, train_logical, filepath);
 %% Compute whole pattern frequencies on a subset of k neurons 
 
 k = 10; % number of neurons to select
-pattern_frequencies_subset(h0, J, k, test_logical, filepath);
+pattern_frequencies_subset(h0, J, k, test_logical, directory);
 
 %% JS Divergence Histogram 
 % Shows JS Divergence between observed/ising model and observed/independent
@@ -74,7 +69,7 @@ pattern_frequencies_subset(h0, J, k, test_logical, filepath);
 try 
     disp('Loading JS divergences...');
     
-    load JS_patterns.mat;
+    load([directory filesep 'JS_patterns.mat']);
     
     % for obs_is
     %convert to log scale
@@ -107,7 +102,7 @@ try
 catch 
     disp('File not found. Computing JS divergences...');
 
-    JS_hist(h0, J, test_logical, filepath);
+    JS_hist(h0, J, test_logical, directory);
 end 
 
 end 

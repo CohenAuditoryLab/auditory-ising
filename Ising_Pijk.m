@@ -1,4 +1,4 @@
-function Ising_Pijk(corr_model, corr_exp, train_corr, train_exp_corr)
+function Ising_Pijk(corr_model, corr_exp, train_corr, train_exp_corr, savepath)
 
 %% Produce plot for 3rd order interactions.
 
@@ -54,5 +54,6 @@ xlabel('Mean Experimental Triplet Correlations');
 ylabel('Mean Predicted Triplet Correlations');
 title('Predicted vs. Empirical Mean Triplet Correlations');
 legend([train, test], {'Train', 'Test'}, 'Location', 'Southeast');
+print([savepath filesep 'triplet_correlations'], '-dpng');
 end
 

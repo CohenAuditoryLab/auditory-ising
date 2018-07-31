@@ -1,7 +1,7 @@
 function plot_num_firing_v2(h0, J, test_logical, train_logical, file)
 
 %% Load data
-load(file);
+load([file filesep 'neuron_trains.mat']);
 neuron_trains = cell2mat(neuron_trains);
 % Separate into train and test sets 
 neuron_trains_test = neuron_trains(:,test_logical);
@@ -52,4 +52,5 @@ xlabel('Number of neurons firing');
 ylabel('Probability');
 legend([test, train, exp], {'Test', 'Training', 'Experimental'});
 set(gca, 'FontSize', 14);
+print([file filesep 'firing_probabilities'], '-dpng');
 end
