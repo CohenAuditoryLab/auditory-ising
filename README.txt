@@ -23,3 +23,5 @@ P_DIST - helper function called in JS_hist to compute the probability distributi
 SAMPLE_ISING_EXACT - produces the probability distribution based on model parameters.  Can also be used to produce independent rather than Ising models.
 
 MH_SAMPLE_ISING - helper function in ESTIMATE_ISING_V2. Used in computing new state on each iteration.
+
+*** All existing figures are saved in Google Drive, with links to individual folders in shared spreadsheet! ***
