@@ -108,7 +108,7 @@ close all;
 
 %% Save auditory neurons in .mat file
 
-% save([tank_path filesep 'auditory_neurons.mat'], 'AudNeurons');
+save([tank_path filesep 'auditory_neurons.mat'], 'AudNeurons');
 
 %% Save tank containing only auditory and only non-auditory neurons 
 
