@@ -44,3 +44,7 @@ If you want to RUN AUDITORY NEURONS, SPIKES AFTER STIMULUS...
 - Run spike_train_generator2() from the directory containing CohenNeurons.mat
 - Run BoltzmannMetrics.m with the path to neuron_trains.mat
 
+If you want to RUN TDT SPIKES, EACH CHANNEL AS A CELL, FROM TAKU'S DATA...
+- Run TDT2Ising.m with path to file containing spike data 
+- Run BoltzmannMetrics.m with path to resulting neuron_trains.mat file
+
