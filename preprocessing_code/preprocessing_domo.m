@@ -8,7 +8,7 @@ function preprocessing_domo(tank, trial_length)
 
 %% create CohenNeurons file
 tank_data = load(tank);
-tank_data = tank_data.auditory_tank;
+tank_data = tank_data.g;
 
 neurons = unique(tank_data(:,1));
 num_neurons = length(neurons);
