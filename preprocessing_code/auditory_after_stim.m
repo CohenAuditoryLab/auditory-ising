@@ -1,8 +1,11 @@
+function auditory_after_stim(auditory_data, behav_data)
+% AUDITORY DATA is path to auditory tank
+% BEHAV DATA is path to spike.mat file
 %% Creates a CohenNeurons.mat structure with only auditory neurons separated
 %  into trials, and spike times centered around stimulus onset.
 
 %% load tank containing only auditory neurons
-load('Domo_Data/ALL_Domo_20180711_ABBA_d01_finalclusters/auditory_neurons/auditory_neurons.mat');
+load(auditory_data);
 
 neurons = unique(auditory_tank(:,1));
 num_neurons = length(neurons);
@@ -10,7 +13,7 @@ num_neurons = length(neurons);
 auditory_tank(:,2) = auditory_tank(:,2);
 
 %% load behavioral data to get stim onset times
-behav = load('PreProcessing_Code/Domo/20180711_ABBA_spike.mat');
+behav = load(behav_data);
 
 stim_onset = behav.StimOnTime * 1e3; %convert from s to ms
 behav_type = behav.index;
@@ -73,3 +76,4 @@ end
 
 % then go to spike_train_processing
 save('CohenNeurons.mat', 'CohenNeurons');
+end
