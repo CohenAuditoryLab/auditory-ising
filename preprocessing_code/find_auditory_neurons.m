@@ -126,7 +126,8 @@ for i = 1:num_neurons
     end 
 end 
 
-disp('a');
-% save([tank_path filesep 'Auditory' filesep 'auditory_tank.mat'], 'auditory_tank');
-% save([tank_path filesep 'Non-Auditory' filesep 'non_auditory_tank.mat'], 'nonaud_tank');
+g = auditory_tank;
+save([tank_path filesep 'Auditory' filesep 'auditory_tank.mat'], 'g');
+g = nonaud_tank;
+save([tank_path filesep 'Non-Auditory' filesep 'non_auditory_tank.mat'], 'g');
 end 
