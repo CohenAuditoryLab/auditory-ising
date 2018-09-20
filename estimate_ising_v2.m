@@ -2,7 +2,7 @@ function [h0, J, mean_sigma, mean_experiment, mean_product, mean_experiment_prod
     train_experiment_product, train_product, train_logical] = estimate_ising_v2(iters, file)
     
     % load data 
-    load(file);
+    load([file filesep 'neuron_trains.mat']);
     neuron_trains = cell2mat(neuron_trains);
     [N, T] = size(neuron_trains);
     % Proportion used for training data
@@ -108,6 +108,7 @@ function [h0, J, mean_sigma, mean_experiment, mean_product, mean_experiment_prod
     xlabel('# of Iterations');
     title('Deviation of Mean Correlation');
     set(gca, 'FontSize', 14);
+    print([file filesep 'convergence'], '-dpng'); % save to file
 
     % ON TRAINING DATA 
     % Mean responses
@@ -177,6 +178,7 @@ function [h0, J, mean_sigma, mean_experiment, mean_product, mean_experiment_prod
     rt = plot(mers, mrs, 'sr', 'MarkerSize', 10);
     set(gca, 'FontSize', 14);
     legend([rtr, rt], {'Training', 'Test'}, 'Location', 'Southeast');
+    print([file filesep 'firing_rates'], '-dpng'); % save to file
     figure(2);
     hold on;
     xlabel('Mean Experimental Correlation');
@@ -185,5 +187,6 @@ function [h0, J, mean_sigma, mean_experiment, mean_product, mean_experiment_prod
     ct = plot(meps, mps, 'sr', 'MarkerSize', 10);
     set(gca, 'FontSize', 14);
     legend([ctr, ct], {'Training', 'Test'}, 'Location', 'Southeast');
+    print([file filesep 'correlations'], '-dpng'); % save to file
     
 end

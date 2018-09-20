@@ -1,6 +1,8 @@
-% interested in neurons 144 through 161 'Ab250315'
+function preprocessing2(neuron_low, neuron_high)
+
+% get neurons of interest
 load FnTNdata_A1.mat;
-Ids = 103:116;
+Ids = neuron_low:neuron_high;
 AudNeurons = [];
 
 % get all the auditory neurons
@@ -43,10 +45,4 @@ end
 % then go to spike_train_processing
 save('CohenNeurons.mat', 'CohenNeurons');
 
-% figure();
-% hold on;
-% for i = 1:numel(CohenNeurons2(1).trials)
-%     v = dataC.spikes(min(find(trialIds == CohenNeurons2(1).ID)) + i - 1, 1);
-%     t = CohenNeurons2(1).trials(i).spike_times{1};
-%     plot(linspace(min(t), max(t), numel(v{1})), v{1});
-% end 
+end

@@ -1,7 +1,7 @@
 function pattern_frequencies_subset(h0, J, k, test_logical, filepath)
 
 %% load experimental data
-load(filepath);
+load([filepath filesep 'neuron_trains.mat']);
 neuron_trains = cell2mat(neuron_trains);
 neuron_trains = double(neuron_trains == 1);
 neuron_trains = neuron_trains(:,test_logical);
@@ -49,7 +49,7 @@ for i = 1:numpat
     disp(['Frequencies: ' num2str(freq)]);
 end 
 
-save('pattern_freqs_subset.mat', 'observed', 'ising', 'ind');
+% save('pattern_freqs_subset.mat', 'observed', 'ising', 'ind');
 %% plot on log-log scale 
 
 figure();
@@ -64,5 +64,6 @@ x1 = xlim;
 lin = linspace(x1(1), x1(2), 100);
 plot(lin, lin, 'k', 'Linewidth', .75);
 legend([l1 l2], 'Independent', 'Ising', 'Location', 'SouthEast');
+print([filepath filesep 'whole_pattern_frequencies'], '-dpng');
 
 end 
