@@ -4,7 +4,7 @@
     % to run ACE algorithm on custom generated *.p file from Domo data
     
 % create output dir
-    base_output = '/Users/mschaff/Documents/DISSERTATION/Ising/output/ACE_NewBark/'; 
+    base_output = '/home/matt/Documents/Ising/output/ACE_NewBark/'; 
     output = [base_output '20180921'];
     if (exist(output, 'dir') == 0)
         mkdir(output);
