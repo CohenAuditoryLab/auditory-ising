@@ -20,6 +20,6 @@
     addpath(genpath(ACE_path));
 % run ACE algorithm
     setenv('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/libstdc++.so.6');
-    system([ACE_path '/bin/ace -d ' output ' -i ACEinput -o ACEinput-out -b 1192108']);
+    system([ACE_path '/bin/ace -d ' output ' -i ACEinput -o ACEinput-out -b 59606']);
 % run qls
     system([ACE_path '/bin/qls -d ' output ' -i ACEinput-out -o ACEinput-out-learn -c ACEinput']);
