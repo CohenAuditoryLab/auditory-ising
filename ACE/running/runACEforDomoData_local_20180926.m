@@ -41,4 +41,11 @@
         saveas(gcf,[output_dir filesep 'C_ij.jpg']);
         close all;
         
+        % custom algorithm J_ij
+        load([output_dir filesep 'Boltzmann_J.mat']);
+        f = heatmap(J);
+        title('Custom Algorithm J_ij');
+        saveas(gcf,[output_dir filesep 'Custom_J_ij.jpg']);
+        close all;
+        
         
