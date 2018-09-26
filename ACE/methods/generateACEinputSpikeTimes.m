@@ -1,4 +1,4 @@
-function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, output_dir)
+function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, output_dir, proportion)
 % generateACEinput - generates *.p file for ACE algorithm from Cohen ...
     % ... spike time data
     
@@ -37,6 +37,9 @@ function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, 
                 % collect by bin
                 spikes_by_bin(i,:) = histc((cluster_spikes),bins*bin_size);
             end
+        % get only proportion
+            num_bins = round(num_bins*proportion);
+            spikes_by_bin = spikes_by_bin(:,1:num_bins);
         % get firing rates
             firing_rates = zeros([num_neurons 1]);
             for i=1:num_neurons
