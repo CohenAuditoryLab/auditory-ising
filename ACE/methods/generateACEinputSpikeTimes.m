@@ -48,6 +48,7 @@ function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, 
             corr_placeholder_vector = zeros([vector_length 1]);
             result_vector = vertcat(firing_rates, corr_placeholder_vector);
             index = num_neurons;
+            c_ij = zeros([20 20]);
             for i=1:num_neurons
                 for j=1:num_neurons
                     if(i==j || i>j)
@@ -65,13 +66,20 @@ function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, 
                     end
                      disp([ num2str(num_coactive_bins) ' - pairwise coactive correlation for neurons' num2str(i) ' and ' num2str(j) '.']);
                     result_vector(index) = num_coactive_bins/num_bins;
+                    c_ij(i,j) = result_vector(index);
                 end
             end
-        % save file
-        if (exist(output_dir, 'dir') == 0)
-            mkdir(output_dir);
-        end
-        fid = fopen([output_dir filesep 'ACEinput.p'], 'wt');
-        fprintf(fid,'%1g\n',result_vector);
-        fclose(fid);
+            c_ij = c_ij' + c_ij;
+        % save files
+            if (exist(output_dir, 'dir') == 0)
+                mkdir(output_dir);
+            end
+            % save spikes_by_bin
+                save([output_dir filesep 'spikes_by_bin.mat'], 'spikes_by_bin');
+            % save C_ij
+                save([output_dir filesep 'c_ij.mat'], 'c_ij');
+            % save .p file
+                fid = fopen([output_dir filesep 'ACEinput.p'], 'wt');
+                fprintf(fid,'%1g\n',result_vector);
+                fclose(fid);
 end
