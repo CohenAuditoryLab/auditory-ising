@@ -14,7 +14,8 @@ disp('Solving inverse ising problem...');
 
 [h0, J, fr_model, fr_exp, corr_model, corr_exp, test_logical, train_exp_corr, train_corr, train_logical] ...
     = estimate_ising_v2(100, directory);
-
+save([directory filesep 'Boltzmann_h.mat'],'h0');
+save([directory filesep 'Boltzmann_J.mat'],'J');
 %% Produce plot for 3rd order interactions.
 
 disp('Computing third order correlations...');
