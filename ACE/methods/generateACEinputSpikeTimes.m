@@ -1,4 +1,4 @@
-function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, output_dir, chunk, chunk_size)
+function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, output_dir, chunk, chunk_size, p_train)
 % generateACEinput - generates *.p file for ACE algorithm from Cohen ...
     % ... spike time data
     
@@ -17,6 +17,9 @@ function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, 
         % chunk_size
             % (integer) number of bins in a chunk (except for remainder
             % chunk)
+        % p_train
+            % proportion of data that should be used as training (default -
+            % .8)
     % output variables:
         % result_vector
             % first N (# neurons) rows = firing rates by neuron
@@ -28,10 +31,13 @@ function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, 
                 chunk = false;
                 num_chunks = 1;
             else if (chunk == 0)
-                    num_chunks = 1;
+                num_chunks = 1;
             end
             if exist('chunk_size', 'var') == 0
                 chunk_size = 1e4;
+            end
+            if exist('p_train', 'var') == 0
+                p_train = .8;
             end
             % get data
             load(data,'g');
@@ -76,11 +82,20 @@ function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, 
                     output_dir = [original_output_dir filesep 'chunk_' num2str(n) '__' num2str(num_bins)];
                     disp(['Outputting chunk ' num2str(n) ' into ' output_dir]);
                 end
+                % training/test split
+                    p_train = .8;
+                    T = size(spikes_by_bin,2);
+                    train_logical = false(T, 1);
+                    % change num_bins to jsut be train bins
+                    num_train_bins = round(p_train*T);
+                    train_logical(1:num_train_bins) = true;
+                    train_logical = train_logical(randperm(T));
+                    train_spikes_by_bin = spikes_by_bin(:,train_logical);
+                    test_logical = ~train_logical;
                 % get firing rates
                     firing_rates = zeros([num_neurons 1]);
                     for i=1:num_neurons
-                        %firing_rates(i) = sum(spikes_by_bin(i,:))/size(spikes_by_bin,2)/bin_size;
-                        firing_rates(i) = sum(spikes_by_bin(i,:))/num_bins;
+                        firing_rates(i) = sum(train_spikes_by_bin(i,:))/num_train_bins;
                     end
                 % align them in one vector
                     vector_length = (num_neurons*(num_neurons-1))/2;
@@ -98,13 +113,13 @@ function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, 
                                 % number of bins where 2 neurons are both active
                                 % divded by total number of bins
                             num_coactive_bins = 0;
-                            for b=1:num_bins
-                                if (spikes_by_bin(i,b) >0 & spikes_by_bin(j,b) > 0)
+                            for b=1:num_train_bins
+                                if (train_spikes_by_bin(i,b) >0 & train_spikes_by_bin(j,b) > 0)
                                     num_coactive_bins = num_coactive_bins+1;
                                 end
                             end
                              %disp([ num2str(num_coactive_bins) ' - pairwise coactive correlation for neurons' num2str(i) ' and ' num2str(j) '.']);
-                            result_vector(index) = num_coactive_bins/num_bins;
+                            result_vector(index) = num_coactive_bins/num_train_bins;
                             c_ij(i,j) = result_vector(index);
                         end
                     end
@@ -115,6 +130,8 @@ function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, 
                     end
                     % save spikes_by_bin
                         save([output_dir filesep 'spikes_by_bin.mat'], 'spikes_by_bin');
+                    % save test_logical
+                        save([output_dir filesep 'test_logical.mat'], 'test_logical');
                     % save C_ij
                         save([output_dir filesep 'c_ij.mat'], 'c_ij');
                     % save .p file
