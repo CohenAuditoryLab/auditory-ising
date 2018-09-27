@@ -1,8 +1,8 @@
-function [h, j_matrix] = extractFittedParameters(data, ACE_output)
+function [h, j_matrix] = extractFittedParameters(N, ACE_output)
 % generateACEinput - generates *.p file for ACE algorithm from Cohen data
     % input variables:
-        % data 
-            % path of spike time file
+        % N 
+            % number of neurons
         % ACE_output
             % *.j file from ACE
     % output variables:
@@ -11,10 +11,7 @@ function [h, j_matrix] = extractFittedParameters(data, ACE_output)
         % j_matrix
             % (NxN matrix) 2nd parameter in Ising model
     % load data
-    load(data,'g');
-    spike_neurons = g(:,1);
-    unique_neurons = unique(spike_neurons);
-    num_neurons = numel(unique_neurons);
+    num_neurons = N;
     a = importdata(ACE_output);
     % set variables
     h = a(1:num_neurons);
