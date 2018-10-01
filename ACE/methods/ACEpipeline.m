@@ -1,4 +1,4 @@
-function ACEpipeline(data_path, output_dir, time_units, bin_size, use_chunks, ACE_path)
+function ACEpipeline(data_path, output_dir, time_units, bin_size, use_chunks, run_custom, ACE_path)
 % ACEpipeline - runs ACE and generates result files & figures
     % input variables:
         % data_path 
@@ -16,6 +16,8 @@ function ACEpipeline(data_path, output_dir, time_units, bin_size, use_chunks, AC
         % use_chunks
             % (boolean) whether to chunk the data by 10,000 bin chunks
             % note - ACE seems to fail when you give it more than 10k bins
+        % run_custom
+            % (boolean) whether to also run custom Ising algorithm
         % ACE_path
             % (string) where ACE is
 
@@ -28,4 +30,8 @@ function ACEpipeline(data_path, output_dir, time_units, bin_size, use_chunks, AC
         runACEonCohenData(output_dir, ACE_path);     
     % extract h & J parameters from *.j file & generate figures
         plotACEresult(output_dir);
+    % if custom_algorithm should be run, run it
+        if (run_custom) 
+            runPlotCustomAlgorithm(output_dir);
+        end
 end
