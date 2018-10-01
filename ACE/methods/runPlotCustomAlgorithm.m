@@ -30,7 +30,7 @@ function runPlotCustomAlgorithm(output_dir)
             
             % extract fitted parameters from ACE algorithm
             disp(['Running custom algorithm & extracting fit parameters ' output_dir]);
-            [h, j_matrix, mean_sigma, mean_experiment, mean_product, mean_experiment_product, test_logical, train_experiment_product, train_product, train_logical] = estimate_ising_v3(1000, output_dir);
+            [h, j_matrix] = estimate_ising_v3(100, output_dir);
 
             % generate figures 
             disp(['Generating custom algorithm figures for ' output_dir]);
@@ -58,7 +58,7 @@ function runPlotCustomAlgorithm(output_dir)
                 close all;
                 
                 % Pattern frequencies
-                pattern_frequencies_subset(h, j_matrix, 10, test_logical, output_dir);
+                pattern_frequencies_subset(h, j_matrix, 10, test_logical, output_dir, figures_dir);
                 
                 % JS divergence
                 JS_hist(h, j_matrix, test_logical, output_dir);

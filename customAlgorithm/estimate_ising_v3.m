@@ -43,12 +43,11 @@ function [h0, J, mean_sigma, mean_experiment, mean_product, mean_experiment_prod
     best_diff = 1;
     best_h0 = h0;
     best_J = J;
+    pb = CmdLineProgressBar('Gradient ascent iterations: '); 
     while itercount < iters
-        
-        tic;
-        % eta = eta/itercount;
         itercount = itercount+1;
-        disp([itercount maxdiff]);
+        pb.print(itercount,iters);
+        
         maxdiff = 0;
         
         % Sample Ising Estimations
@@ -62,18 +61,13 @@ function [h0, J, mean_sigma, mean_experiment, mean_product, mean_experiment_prod
         % end
         % [sigm, states] = gibbs_sample_ising(sample_size, h0, J, 100);
         weighted_states = sigm.*repmat(transpose(states), 1, size(sigm, 2));
-        toc
         
-        % tic;
         % Update h0 
         mean_sigma = sum(weighted_states);
         diff = eta*(mean_experiment-mean_sigma) + alpha*prev_change_h0;
         prev_change_h0 = diff;
         h0 = h0 + diff;
         sigma_diff(itercount) = mean(abs(mean_experiment-mean_sigma));
-        % toc
-        
-        % tic;
         % Update Jij
         mean_product = transpose(sigm)*weighted_states;
         diff = 0.5*eta*(mean_experiment_product-mean_product)+alpha*prev_change_J;
@@ -87,9 +81,8 @@ function [h0, J, mean_sigma, mean_experiment, mean_product, mean_experiment_prod
             best_h0 = h0;
             best_J =J;
         end
-        toc
     end
-
+    %textprogressbar('done');
     J = best_J;
     h0 = best_h0;
 

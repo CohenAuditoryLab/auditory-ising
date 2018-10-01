@@ -27,9 +27,10 @@ obs_is = zeros(1, 250); % observed vs. ising model
 obs_ind = zeros(1, 250); % observed vs. independent model
 
 % for each pattern of 10 neurons 
+pb = CmdLineProgressBar(['Computing JS divergence across '  num2str(size(patterns,1)) ' patterns: ']); 
 for i = 1:size(patterns,1)
     %disp(['Computing divergence for ' num2str(i) ' of ' num2str(size(patterns,1))]);
-    
+    pb.print(i,size(patterns,1));
     % select those neurons from distribution
     subset = neuron_trains(:,logical(patterns(i,:)));
     h0_subset = h0(logical(patterns(i,:)));
