@@ -19,24 +19,21 @@ function plotACEresult(output_dir)
             if (~no_chunks)
                 output_dir = [chunks(i).folder filesep chunks(i).name];
             end
+            
             % load test_logical and get size of training data
             load([output_dir filesep 'test_logical.mat']);
             num_bins = numel(find(test_logical == 0));
+            
             % get # of neurons
             load([output_dir filesep 'spikes_by_bin.mat']);
             N = size(spikes_by_bin, 1);
-            % save neuron_trains file (needed for plot methods)
-            neuron_trains = mat2cell(spikes_by_bin, ones([1 size(spikes_by_bin,1)]), [size(spikes_by_bin,2)]);
-            save([output_dir filesep 'neuron_trains.mat'], 'neuron_trains');
+            
             % extract fitted parameters from ACE algorithm
             disp(['Extracting parameters from ACE algorithm on ' output_dir]);
             b = dir(fullfile(output_dir, '*learn.j'));
             [~,name,ext] = fileparts([b.folder filesep b.name]);
             [h, j_matrix] = extractFittedParameters(N,[output_dir filesep name '.j']);
-            
-            % get probability distributions from fitted parameters
-            %[sigm_new, states_new] = sample_ising_exact(h', j_matrix);
-            
+
             % generate figures 
             disp(['Generating figures for ' output_dir]);
             
@@ -63,7 +60,8 @@ function plotACEresult(output_dir)
                 pattern_frequencies_subset(h', j_matrix, 10, test_logical, output_dir);
                 
                 % JS divergence
-                %JS_hist(h', j_matrix, test_logical, output_dir);
+                JS_hist(h', j_matrix, test_logical, output_dir);
                 hold off;
+                close all;
         end
 end

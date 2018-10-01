@@ -118,7 +118,6 @@ function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, 
                                     num_coactive_bins = num_coactive_bins+1;
                                 end
                             end
-                             %disp([ num2str(num_coactive_bins) ' - pairwise coactive correlation for neurons' num2str(i) ' and ' num2str(j) '.']);
                             result_vector(index) = num_coactive_bins/num_train_bins;
                             c_ij(i,j) = result_vector(index);
                         end
@@ -130,6 +129,10 @@ function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, 
                     end
                     % save spikes_by_bin
                         save([output_dir filesep 'spikes_by_bin.mat'], 'spikes_by_bin');
+                    % save neuron_trains file (needed for plot methods)
+                        spikes_by_bin(spikes_by_bin==0) = -1;
+                        neuron_trains = mat2cell(spikes_by_bin, ones([1 size(spikes_by_bin,1)]), [size(spikes_by_bin,2)]);
+                        save([output_dir filesep 'neuron_trains.mat'], 'neuron_trains');
                     % save test_logical
                         save([output_dir filesep 'test_logical.mat'], 'test_logical');
                     % save C_ij
