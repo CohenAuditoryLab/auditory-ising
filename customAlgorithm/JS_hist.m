@@ -28,7 +28,7 @@ obs_ind = zeros(1, 250); % observed vs. independent model
 
 % for each pattern of 10 neurons 
 for i = 1:size(patterns,1)
-    disp(['Computing divergence for ' num2str(i) ' of ' num2str(size(patterns,1))]);
+    %disp(['Computing divergence for ' num2str(i) ' of ' num2str(size(patterns,1))]);
     
     % select those neurons from distribution
     subset = neuron_trains(:,logical(patterns(i,:)));
@@ -137,6 +137,7 @@ for b=1:numel(lab)
 end 
 
 set(gca, 'XTickLabel', labels);
-print([filepath filesep 'JS_hist'], '-dpng');
-
+print([filepath filesep 'figures' filesep 'JS_hist'], '-dpng');
+close all;
+hold off;
 end 

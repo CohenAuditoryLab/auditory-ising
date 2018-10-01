@@ -42,11 +42,11 @@ ising = states/T;
 ind = states_ind/T;
 
 for i = 1:numpat
-    disp(['Counting pattern number ' num2str(i) ' of ' num2str(numpat) '...']);
+    %disp(['Counting pattern number ' num2str(i) ' of ' num2str(numpat) '...']);
     count = sum(ismember(neuron_trains, patterns(i, :), 'rows'));
     freq = count/numtrials/T;
     observed(i) = freq;
-    disp(['Frequencies: ' num2str(freq)]);
+    %disp(['Frequencies: ' num2str(freq)]);
 end 
 
 % save('pattern_freqs_subset.mat', 'observed', 'ising', 'ind');
@@ -55,6 +55,7 @@ end
 figure();
 l1 = loglog(observed, ind, '.c', 'MarkerSize', 10);
 hold on;
+
 l2 = loglog(observed, ising, '.b', 'MarkerSize', 10);
 set(gca, 'FontSize', 14);
 title('Whole Pattern Frequencies');
@@ -64,6 +65,6 @@ x1 = xlim;
 lin = linspace(x1(1), x1(2), 100);
 plot(lin, lin, 'k', 'Linewidth', .75);
 legend([l1 l2], 'Independent', 'Ising', 'Location', 'SouthEast');
-print([filepath filesep 'whole_pattern_frequencies'], '-dpng');
-
+print([filepath filesep 'figures' filesep 'whole_pattern_frequencies'], '-dpng');
+close all;
 end 
