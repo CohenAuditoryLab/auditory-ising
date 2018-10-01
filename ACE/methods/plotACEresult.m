@@ -1,10 +1,6 @@
-function plotACEresult(output_dir, ACE_path)
+function plotACEresult(output_dir)
     
     % initialize variables
-        if exist('ACE_path', 'var') == 0
-             ACE_path = '/Users/mschaff/Documents/REPOS/ACE';
-        end
-        addpath(genpath(ACE_path));
         % add path to respository
         addpath(genpath(fileparts(fileparts(fileparts(mfilename('fullpath'))))));
         % load data
