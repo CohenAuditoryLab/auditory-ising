@@ -1,4 +1,4 @@
-function ACEpipeline(data_path, output_dir, time_units, bin_size, use_chunks, run_custom, ACE_path)
+function ACEpipeline(data_path, output_dir, time_units, bin_size, use_chunks, run_custom, ACE_path, indep_c_ij)
 % ACEpipeline - runs ACE and generates result files & figures
     % input variables:
         % data_path 
@@ -20,12 +20,19 @@ function ACEpipeline(data_path, output_dir, time_units, bin_size, use_chunks, ru
             % (boolean) whether to also run custom Ising algorithm
         % ACE_path
             % (string) where ACE is
+        % indep_c_ij
+            % (boolean) whether c_ij should just be independent (for
+            % testing)
 
   %% LOGIC
+    % set up vars
+        if exist('indep_c_ij', 'var') == 0
+          indep_c_ij = false;
+        end
     % add all code to path
         addpath(genpath(fileparts(fileparts(fileparts(mfilename('fullpath'))))));
     % generate ACE input files, with a training + test split
-        generateACEinputSpikeTimes(data_path, time_units, bin_size, output_dir,use_chunks); 
+        generateACEinputSpikeTimes(data_path, time_units, bin_size, output_dir,use_chunks, indep_c_ij); 
     % run ACE & learning algorithm on the *.p file
         runACEonCohenData(output_dir, ACE_path);     
     % extract h & J parameters from *.j file & generate figures

@@ -1,4 +1,4 @@
-function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, output_dir, chunk, chunk_size, p_train)
+function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, output_dir, chunk, indep_c_ij, chunk_size)
 % generateACEinput - generates *.p file for ACE algorithm from Cohen ...
     % ... spike time data
     
@@ -17,9 +17,9 @@ function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, 
         % chunk_size
             % (integer) number of bins in a chunk (except for remainder
             % chunk)
-        % p_train
-            % proportion of data that should be used as training (default -
-            % .8)
+         % indep_c_ij
+            % (boolean) whether c_ij should just be independent (for
+            % testing)
     % output variables:
         % result_vector
             % first N (# neurons) rows = firing rates by neuron
@@ -109,16 +109,20 @@ function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, 
                                 continue;
                             end
                             index = index+1;
-                            % get special pairwise correlation as defined by ACE:
+                            if (indep_c_ij) 
+                                result_vector(index) = firing_rates(i)*firing_rates(j);
+                            else
+                                % get special pairwise correlation as defined by ACE:
                                 % number of bins where 2 neurons are both active
                                 % divded by total number of bins
-                            num_coactive_bins = 0;
-                            for b=1:num_train_bins
-                                if (train_spikes_by_bin(i,b) >0 & train_spikes_by_bin(j,b) > 0)
-                                    num_coactive_bins = num_coactive_bins+1;
+                                num_coactive_bins = 0;
+                                for b=1:num_train_bins
+                                    if (train_spikes_by_bin(i,b) >0 & train_spikes_by_bin(j,b) > 0)
+                                        num_coactive_bins = num_coactive_bins+1;
+                                    end
                                 end
+                                result_vector(index) = num_coactive_bins/num_train_bins;
                             end
-                            result_vector(index) = num_coactive_bins/num_train_bins;
                             c_ij(i,j) = result_vector(index);
                         end
                     end
