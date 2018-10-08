@@ -1,4 +1,4 @@
-function JS_hist(h0, J, test_logical, filepath)
+function JS_hist(h0, J, test_logical, filepath, figures_dir)
 %% Load data 
 
 load([filepath filesep 'neuron_trains.mat']);
@@ -92,7 +92,7 @@ end
 % save variables 
 % filecomps = strsplit(filepath, filesep);
 % cd(filecomps{1});
-save([filepath filesep 'JS_patterns.mat'], 'obs_is', 'obs_ind');
+save([figures_dir filesep 'JS_patterns.mat'], 'obs_is', 'obs_ind');
 
 %% plot histograms 
 
@@ -138,7 +138,7 @@ for b=1:numel(lab)
 end 
 
 set(gca, 'XTickLabel', labels);
-print([filepath filesep 'figures' filesep 'JS_hist'], '-dpng');
+print([figures_dir filesep 'JS_hist'], '-dpng');
 close all;
 hold off;
 end 

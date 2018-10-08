@@ -12,6 +12,7 @@ p_train = k/n;
 train_logical = false(n, 1);
 train_logical(1:round(p_train*n)) = true;
 train_logical = train_logical(randperm(n));
+train_logical(7) = false;
 neuron_trains = neuron_trains(train_logical, :);
 % get corresponding parameters
 h0 = h0(train_logical);
@@ -19,8 +20,9 @@ J = J(train_logical, train_logical);
 
 %% compute ising and independent model results 
 [sigm, states] = sample_ising_exact(h0, J);
-h0_independent = log(mean(neuron_trains, 2)./(1-mean(neuron_trains, 2)))*0.5;
+h0_independent = log(mean(neuron_trains, 2)./(1-mean(neuron_trains, 2)));%*0.5;
 h0_independent = transpose(h0_independent);
+k = numel(h0);
 [sigm_ind, states_ind] = sample_ising_exact(h0_independent, zeros(k, k));
 
 sigm = sigm == 1;

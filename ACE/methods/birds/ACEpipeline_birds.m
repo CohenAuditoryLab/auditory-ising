@@ -14,10 +14,6 @@ function ACEpipeline_birds(data_path, output_dir, run_custom, ACE_path)
             % (string) where ACE is
 
   %% LOGIC
-    % set up vars
-        if exist('indep_c_ij', 'var') == 0
-          indep_c_ij = false;
-        end
     % add all code to path
         addpath(genpath(fileparts(fileparts(fileparts(mfilename('fullpath'))))));
     % generate ACE input files, with a training + test split
