@@ -30,7 +30,7 @@ function plotACEresult(output_dir, zeros_and_ones)
             
             % extract fitted parameters from ACE algorithm
             disp(['Extracting parameters from ACE algorithm on ' output_dir]);
-            b = dir(fullfile(output_dir, '*learn.j'));
+            b = dir(fullfile(output_dir, '*out.j'));
             [~,name,ext] = fileparts([b.folder filesep b.name]);
             [h, j_matrix] = extractFittedParameters(N,[output_dir filesep name '.j']);
 

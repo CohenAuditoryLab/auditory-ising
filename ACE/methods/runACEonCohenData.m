@@ -37,8 +37,8 @@ function runACEonCohenData(output_dir, ACE_path)
             disp(['Running ACE algorithm on ' output_dir]);
             system([ ACE_path '/bin/ace -d ' output_dir ' -i ' name ' -o ' name '-out -b ' num_bins ' -g2 ' round(1/num_bins)]);
             % run QLS learning on ACE result
-            disp(['Running ACE QLS learning algorithm on ' output_dir]);
-            system([ ACE_path '/bin/qls -d ' output_dir ' -i ' name '-out -o ' name '-out-learn -c ' name ' -g2 ' round(1/num_bins)]);
+            %disp(['Running ACE QLS learning algorithm on ' output_dir]);
+            %system([ ACE_path '/bin/qls -d ' output_dir ' -i ' name '-out -o ' name '-out-learn -c ' name ' -g2 ' round(1/num_bins)]);
         end
     
 
