@@ -1,4 +1,4 @@
-function JS_hist(h0, J, test_logical, filepath, figures_dir, zeros_and_ones)
+function JS_hist_atanh(h0, J, test_logical, filepath, figures_dir)
 %% Load data 
 
 load([filepath filesep 'neuron_trains.mat']);
@@ -40,11 +40,8 @@ for i = 1:size(patterns,1)
     % extract appropriate spikes
     observed = p_dist(subset, h0_subset, J_subset);
     P = observed;
-    if (zeros_and_ones)
-        [~, Q] = sample_ising_exact_0(h0_subset, J_subset);
-    else
-        [~, Q] = sample_ising_exact(h0_subset, J_subset);
-    end
+    [~, Q] = sample_ising_exact(h0_subset, J_subset);
+    
     % throw out zero values of P
     z = P ~= 0;
     P = P(z);
@@ -68,7 +65,9 @@ for i = 1:size(patterns,1)
     %%%% JS divergence observed vs. independent 
     % extract appropriate spike trains 
     P = observed;
-    h0_independent = log(mean(subset, 1)./(1-mean(subset, 1)))*0.5;
+    %h0_independent = log(mean(subset, 1)./(1-mean(subset, 1)))*0.5;
+    subset(subset<1) = -1;
+    h0_independent = atanh(mean(subset,1));
     [~, Q] = sample_ising_exact(h0_independent, zeros(10, 10));
     
     % throw out zero values 

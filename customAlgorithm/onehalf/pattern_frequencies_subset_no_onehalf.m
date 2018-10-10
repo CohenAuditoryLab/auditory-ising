@@ -1,4 +1,4 @@
-function pattern_frequencies_subset(h0, J, k, test_logical, filepath, figures_dir, zeros_and_ones)
+function pattern_frequencies_subset(h0, J, k, test_logical, filepath, figures_dir)
 
 %% load experimental data
 load([filepath filesep 'neuron_trains.mat']);
@@ -19,13 +19,8 @@ h0 = h0(train_logical);
 J = J(train_logical, train_logical);
 
 %% compute ising and independent model results 
-if (zeros_and_ones)
-    [sigm, states] = sample_ising_exact_0(h0, J);
-else
-    [sigm, states] = sample_ising_exact(h0, J);
-end
-
-h0_independent = log(mean(neuron_trains, 2)./(1-mean(neuron_trains, 2)))*0.5;
+[sigm, states] = sample_ising_exact(h0, J);
+h0_independent = log(mean(neuron_trains, 2)./(1-mean(neuron_trains, 2)));%*0.5;
 h0_independent = transpose(h0_independent);
 k = numel(h0);
 [sigm_ind, states_ind] = sample_ising_exact(h0_independent, zeros(k, k));
@@ -65,13 +60,13 @@ hold on;
 
 l2 = loglog(observed, ising, '.b', 'MarkerSize', 10);
 set(gca, 'FontSize', 14);
-title('Whole Pattern Frequencies');
+title('Whole Pattern Frequencies - No One Half');
 xlabel('Observed Frequencies (Hz)');
 ylabel('Predicted Frequencies (Hz)');
 x1 = xlim;
 lin = linspace(x1(1), x1(2), 100);
 plot(lin, lin, 'k', 'Linewidth', .75);
 legend([l1 l2], 'Independent', 'Ising', 'Location', 'SouthEast');
-print([figures_dir filesep 'whole_pattern_frequencies'], '-dpng');
+print([figures_dir filesep 'whole_pattern_frequencies_no_onehalf'], '-dpng');
 close all;
 end 

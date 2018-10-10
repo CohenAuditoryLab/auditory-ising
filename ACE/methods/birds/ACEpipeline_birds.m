@@ -21,7 +21,7 @@ function ACEpipeline_birds(data_path, output_dir, run_custom, ACE_path)
     % run ACE & learning algorithm on the *.p file
         runACEonCohenData(output_dir, ACE_path);     
     % extract h & J parameters from *.j file & generate figures
-        plotACEresult(output_dir);
+        plotACEresult(output_dir,1);
     % if custom_algorithm should be run, run it
         if (run_custom) 
             runPlotCustomAlgorithm(output_dir);

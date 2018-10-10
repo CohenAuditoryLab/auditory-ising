@@ -58,10 +58,10 @@ function runPlotCustomAlgorithm(output_dir)
                 close all;
                 
                 % Pattern frequencies
-                pattern_frequencies_subset(h, j_matrix, 10, test_logical, output_dir, figures_dir);
+                pattern_frequencies_subset(h, j_matrix, 10, test_logical, output_dir, figures_dir,0);
                 
                 % JS divergence
-                JS_hist(h, j_matrix, test_logical, output_dir, figures_dir);
+                JS_hist(h, j_matrix, test_logical, output_dir, figures_dir,0);
                 hold off;
                 close all;
         end

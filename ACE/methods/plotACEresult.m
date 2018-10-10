@@ -1,4 +1,4 @@
-function plotACEresult(output_dir)
+function plotACEresult(output_dir, zeros_and_ones)
     
     % initialize variables
         % add path to respository
@@ -57,10 +57,11 @@ function plotACEresult(output_dir)
                 close all;
                 
                 % Pattern frequencies
-                pattern_frequencies_subset(h', j_matrix, 10, test_logical, output_dir, figures_dir);
+                pattern_frequencies_subset(h', j_matrix, 10, test_logical, output_dir, figures_dir, zeros_and_ones);
                 
                 % JS divergence
-                JS_hist(h', j_matrix, test_logical, output_dir, figures_dir);
+                JS_hist(h', j_matrix, test_logical, output_dir, figures_dir, zeros_and_ones);
+                
                 hold off;
                 close all;
         end
