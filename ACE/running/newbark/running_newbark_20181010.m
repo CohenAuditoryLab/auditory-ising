@@ -5,7 +5,7 @@
     % bark
     
         base_output = '/home/matt/Documents/Ising/output/ACE_NewBark'; 
-        
+        addpath(genpath('../../'));
     % add ACE path
         ACE_path = '/home/matt/Documents/ACE';
         addpath(genpath(ACE_path));
