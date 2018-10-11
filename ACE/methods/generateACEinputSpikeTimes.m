@@ -33,6 +33,9 @@ function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, 
             else if (chunk == 0)
                 num_chunks = 1;
             end
+            if exist('indep_c_ij', 'var') == 0
+                indep_c_ij = false;
+            end
             if exist('chunk_size', 'var') == 0
                 chunk_size = 1e4;
             end

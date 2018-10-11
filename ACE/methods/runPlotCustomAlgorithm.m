@@ -1,6 +1,10 @@
-function runPlotCustomAlgorithm(output_dir)
+function runPlotCustomAlgorithm(output_dir, iters)
     
     % initialize variables
+        if exist('iters', 'var') == 0
+            disp('iterations variable not set. Running 100 iterations.');
+            iters = 100;
+        end
         % add path to respository
         addpath(genpath(fileparts(fileparts(fileparts(mfilename('fullpath'))))));
         % load data
@@ -30,7 +34,7 @@ function runPlotCustomAlgorithm(output_dir)
             
             % extract fitted parameters from ACE algorithm
             disp(['Running custom algorithm & extracting fit parameters ' output_dir]);
-            [h, j_matrix] = estimate_ising_v3(100, output_dir);
+            [h, j_matrix] = estimate_ising_v3(iters, output_dir);
 
             % generate figures 
             disp(['Generating custom algorithm figures for ' output_dir]);
