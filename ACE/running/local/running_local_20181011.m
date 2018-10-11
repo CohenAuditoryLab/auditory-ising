@@ -47,3 +47,16 @@
         zeros_and_ones = 1;
         plotACEresult(output_dir, zeros_and_ones);
         PlotCustomAlgorithm(output_dir);
+
+        %% DISCOVERY -- p_dist_neg was ALSO not respecting 
+        
+        % so re-running metrics
+        
+        % bird
+        destination = '/Users/mschaff/Documents/DISSERTATION/Ising/output/ACE_local/20181010_all/201801010_Birds_pdistfix';
+        mkdir(destination);
+        source = '/Users/mschaff/Documents/DISSERTATION/Ising/output/ACE_local/20181010_all/201801010_Birds';
+        copyfile(source, destination);
+        output_dir = destination;
+        zeros_and_ones = 1;
+        plotACEresult(output_dir, zeros_and_ones);
