@@ -5,7 +5,8 @@ load([filepath filesep 'neuron_trains.mat']);
 neuron_trains = cell2mat(neuron_trains);
 neuron_trains = double(neuron_trains == 1)'; % switch to 1 and 0 from 1 and -1
 test_neuron_trains = neuron_trains(test_logical,:);
-train_neuron_trains = neuron_trains(~test_logical,:);
+load([filepath filesep 'train_logical.mat']);
+train_neuron_trains = neuron_trains(train_logical,:);
 n = size(test_neuron_trains, 1);
 
 %% produce all combinations of 10 neurons firing 

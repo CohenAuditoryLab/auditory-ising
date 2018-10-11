@@ -5,7 +5,8 @@ load([filepath filesep 'neuron_trains.mat']);
 neuron_trains = cell2mat(neuron_trains);
 %test_neuron_trains = double(test_neuron_trains == 1);
 test_neuron_trains = neuron_trains(:,test_logical);
-train_neuron_trains = neuron_trains(:,~test_logical);
+load([filepath filesep 'train_logical.mat']);
+train_neuron_trains = neuron_trains(:,train_logical);
 n = size(test_neuron_trains, 1);
 
 %% extract k neurons randomly
@@ -13,6 +14,10 @@ p_train = k/n;
 selection_logical = false(n, 1);
 selection_logical(1:round(p_train*n)) = true;
 selection_logical = selection_logical(randperm(n));
+if (isempty(strfind(lower(filepath), 'bird'))) 
+else
+    selection_logical(7) = false; % something is very weird with the 7th bird
+end
 test_neuron_trains = test_neuron_trains(selection_logical, :);
 train_neuron_trains = train_neuron_trains(selection_logical, :);
 % get corresponding parameters
