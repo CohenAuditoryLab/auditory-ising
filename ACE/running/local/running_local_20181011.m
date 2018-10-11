@@ -104,7 +104,7 @@
         copyfile(source, destination); % copy the directory so the plotting functions can use the files in it
         copyfile(eve_j_file, [destination filesep]); % copy Eve's .j file
         delete([destination filesep 'ACEinput-out.j']); %delete the ACE output I generated
-        rmdir([destination filesep 'figures_custom']);
+        rmdir([destination filesep 'figures_custom'], 's');
         output_dir = destination;
         zeros_and_ones = 1;
         plotACEresult(output_dir, zeros_and_ones);
@@ -116,7 +116,7 @@
         copyfile(source, destination); % copy the directory so the plotting functions can use the files in it
         copyfile(eve_j_file, [destination filesep]); % copy Eve's .j file
         delete([destination filesep 'ACEinput-out.j']); %delete the ACE output I generated
-        rmdir([destination filesep 'figures_custom']);
+        rmdir([destination filesep 'figures_custom'], 's');
         output_dir = destination;
         zeros_and_ones = 1;
         plotACEresult(output_dir, zeros_and_ones);
