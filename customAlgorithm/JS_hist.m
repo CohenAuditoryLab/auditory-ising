@@ -68,7 +68,11 @@ for i = 1:size(patterns,1)
     %%%% JS divergence observed vs. independent 
     % extract appropriate spike trains 
     P = observed;
-    h0_independent = log(mean(subset, 1)./(1-mean(subset, 1)))*0.5;
+    %h0_independent = log(mean(subset, 1)./(1-mean(subset, 1)))*0.5;
+    %incorrect -- this is in 0s and 1s but it's using an Ising model estimate of the
+    %P distribution that is in -1s and 1s
+    subset(subset<1) = -1;
+    h0_independent = atanh(mean(subset,1));
     [~, Q] = sample_ising_exact(h0_independent, zeros(10, 10));
     
     % throw out zero values 
