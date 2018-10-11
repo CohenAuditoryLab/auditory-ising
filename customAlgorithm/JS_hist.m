@@ -135,7 +135,7 @@ histogram(log_obs_ind, bins, 'normalization', 'pdf');
 xlabel('JS Divergence (bits)');
 ylabel('Probability Density');
 set(gca, 'FontSize', 14);
-legend({'Ising', 'Independent'});
+legend({'Pairwise', 'Independent'});
 
 ax = gca;
 lab = ax.XTick;
