@@ -4,11 +4,12 @@ function JS_hist(h0, J, test_logical, filepath, figures_dir, zeros_and_ones)
 load([filepath filesep 'neuron_trains.mat']);
 neuron_trains = cell2mat(neuron_trains);
 neuron_trains = double(neuron_trains == 1)'; % switch to 1 and 0 from 1 and -1
-neuron_trains = neuron_trains(test_logical,:);
-n = size(neuron_trains, 1);
+test_neuron_trains = neuron_trains(test_logical,:);
+train_neuron_trains = neuron_trains(~test_logical,:);
+n = size(test_neuron_trains, 1);
 
 %% produce all combinations of 10 neurons firing 
-N = size(neuron_trains, 2);
+N = size(test_neuron_trains, 2);
 i = 10;
 patterns = [];
 
@@ -32,7 +33,7 @@ for i = 1:size(patterns,1)
     %disp(['Computing divergence for ' num2str(i) ' of ' num2str(size(patterns,1))]);
     pb.print(i,size(patterns,1));
     % select those neurons from distribution
-    subset = neuron_trains(:,logical(patterns(i,:)));
+    subset = test_neuron_trains(:,logical(patterns(i,:)));
     h0_subset = h0(logical(patterns(i,:)));
     J_subset = J(logical(patterns(i,:)), logical(patterns(i,:)));
        
@@ -71,8 +72,9 @@ for i = 1:size(patterns,1)
     %h0_independent = log(mean(subset, 1)./(1-mean(subset, 1)))*0.5;
     %incorrect -- this is in 0s and 1s but it's using an Ising model estimate of the
     %P distribution that is in -1s and 1s
-    subset(subset<1) = -1;
-    h0_independent = atanh(mean(subset,1));
+    subset_train = train_neuron_trains(:,logical(patterns(i,:)));
+    subset_train(subset_train<1) = -1;
+    h0_independent = atanh(mean(subset_train,1));
     [~, Q] = sample_ising_exact(h0_independent, zeros(10, 10));
     
     % throw out zero values 

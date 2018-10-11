@@ -3,19 +3,21 @@ function pattern_frequencies_subset(h0, J, k, test_logical, filepath, figures_di
 %% load experimental data
 load([filepath filesep 'neuron_trains.mat']);
 neuron_trains = cell2mat(neuron_trains);
-%neuron_trains = double(neuron_trains == 1);
-neuron_trains = neuron_trains(:,test_logical);
-n = size(neuron_trains, 1);
+%test_neuron_trains = double(test_neuron_trains == 1);
+test_neuron_trains = neuron_trains(:,test_logical);
+train_neuron_trains = neuron_trains(:,~test_logical);
+n = size(test_neuron_trains, 1);
 
 %% extract k neurons randomly
 p_train = k/n;
-train_logical = false(n, 1);
-train_logical(1:round(p_train*n)) = true;
-train_logical = train_logical(randperm(n));
-neuron_trains = neuron_trains(train_logical, :);
+selection_logical = false(n, 1);
+selection_logical(1:round(p_train*n)) = true;
+selection_logical = selection_logical(randperm(n));
+test_neuron_trains = test_neuron_trains(selection_logical, :);
+train_neuron_trains = train_neuron_trains(selection_logical, :);
 % get corresponding parameters
-h0 = h0(train_logical);
-J = J(train_logical, train_logical);
+h0 = h0(selection_logical);
+J = J(selection_logical, selection_logical);
 
 %% compute ising and independent model results 
 if (zeros_and_ones)
@@ -24,8 +26,8 @@ else
     [sigm, states] = sample_ising_exact(h0, J);
 end
 
-%h0_independent = log(mean(neuron_trains, 2)./(1-mean(neuron_trains, 2)))*0.5;
-h0_independent = atanh(mean(neuron_trains,2));
+%h0_independent = log(mean(test_neuron_trains, 2)./(1-mean(test_neuron_trains, 2)))*0.5;
+h0_independent = atanh(mean(train_neuron_trains,2));
 h0_independent = transpose(h0_independent);
 k = numel(h0);
 [sigm_ind, states_ind] = sample_ising_exact(h0_independent, zeros(k, k));
@@ -33,7 +35,7 @@ k = numel(h0);
 %sigm = sigm == 1;
 %sigm_ind = sigm_ind == 1;
 
-neuron_trains = neuron_trains';
+test_neuron_trains = test_neuron_trains';
 
 N = k;
 patterns = sigm;
@@ -42,7 +44,7 @@ patterns(patterns<1) = -1;
 T = 1e-3; %seconds 
 
 numpat = size(patterns, 1);
-numtrials = size(neuron_trains, 1);
+numtrials = size(test_neuron_trains, 1);
 
 observed = zeros(1, numpat);
 ising = states/T;
@@ -50,7 +52,7 @@ ind = states_ind/T;
 
 for i = 1:numpat
     %disp(['Counting pattern number ' num2str(i) ' of ' num2str(numpat) '...']);
-    count = sum(ismember(neuron_trains, patterns(i, :), 'rows'));
+    count = sum(ismember(test_neuron_trains, patterns(i, :), 'rows'));
     freq = count/numtrials/T;
     observed(i) = freq;
     %disp(['Frequencies: ' num2str(freq)]);
