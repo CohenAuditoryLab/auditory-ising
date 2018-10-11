@@ -38,7 +38,7 @@ for i = 1:size(patterns,1)
        
     %%%%  JS divergence observed vs. ising 
     % extract appropriate spikes
-    observed = p_dist(subset, h0_subset, J_subset);
+    observed = p_dist_neg(subset, h0_subset);
     P = observed;
     if (zeros_and_ones)
         [~, Q] = sample_ising_exact_0(h0_subset, J_subset);

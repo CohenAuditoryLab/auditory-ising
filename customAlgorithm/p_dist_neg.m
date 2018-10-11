@@ -1,6 +1,9 @@
-function probs = p_dist_neg(subset, h0, J)
+function probs = p_dist_neg(subset, h0)
 %% compute all possible patterns of neuron firing 
-[sigm, ~] = sample_ising_exact(h0, J);
+N = numel(h0);
+states = zeros(1, 2^N);
+numbers = transpose(linspace(1,numel(states),numel(states)));
+sigm = de2bi(numbers-1)*2-1;
 sigm = sigm==1; %turn into 0 and 1 
 
 %% calculate the probability of each pattern in the subset of data 
