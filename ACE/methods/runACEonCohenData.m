@@ -1,4 +1,4 @@
-function runACEonCohenData(output_dir, ACE_path)
+function runACEonCohenData(output_dir, ACE_path, reg)
     % runACEonCohenData - runs ACE algorithm on Cohen lab data
     
     % input variables:
@@ -6,6 +6,9 @@ function runACEonCohenData(output_dir, ACE_path)
             % path to directory where *.p file & test_logical.mat are saved
         % ACE_path
             % path to ACE
+        % reg
+            % (double) regularization parameter to pass to ACE
+            % typically 1/num_bins
 
     %% LOGIC
             
@@ -33,9 +36,13 @@ function runACEonCohenData(output_dir, ACE_path)
             % load test_logical and get size of training data
             load([output_dir filesep 'train_logical.mat']);
             num_bins = numel(find(train_logical == 1));
+            % regularization parameter
+            if exist('reg', 'var') == 0
+                 reg = 1/num_bins;
+            end
             % run ACE algorithm
             disp(['Running ACE algorithm on ' output_dir]);
-            system([ ACE_path '/bin/ace -d ' output_dir ' -i ' name ' -o ' name '-out -b ' num2str(num_bins) ' -g2 ' num2str(1/num_bins)]);
+            system([ ACE_path '/bin/ace -d ' output_dir ' -i ' name ' -o ' name '-out -b ' num2str(num_bins) ' -g2 ' num2str(reg)]);
             % run QLS learning on ACE result
             %disp(['Running ACE QLS learning algorithm on ' output_dir]);
             %system([ ACE_path '/bin/qls -d ' output_dir ' -i ' name '-out -o ' name '-out-learn -c ' name ' -g2 ' round(1/num_bins)]);
