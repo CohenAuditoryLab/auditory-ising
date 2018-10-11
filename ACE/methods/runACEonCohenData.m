@@ -31,8 +31,8 @@ function runACEonCohenData(output_dir, ACE_path)
             b = dir(fullfile(output_dir, '*.p'));
             [~,name,ext] = fileparts([b.folder filesep b.name]);
             % load test_logical and get size of training data
-            load([output_dir filesep 'test_logical.mat']);
-            num_bins = numel(find(test_logical == 0));
+            load([output_dir filesep 'train_logical.mat']);
+            num_bins = numel(find(train_logical == 1));
             % run ACE algorithm
             disp(['Running ACE algorithm on ' output_dir]);
             system([ ACE_path '/bin/ace -d ' output_dir ' -i ' name ' -o ' name '-out -b ' num2str(num_bins) ' -g2 ' num2str(1/num_bins)]);

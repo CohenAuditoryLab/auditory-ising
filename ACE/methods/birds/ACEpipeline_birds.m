@@ -1,4 +1,4 @@
-function ACEpipeline_birds(data_path, output_dir, run_custom, ACE_path)
+function ACEpipeline_birds(data_path, output_dir, run_custom, ACE_path, split)
 % ACEpipeline - runs ACE and generates result files & figures
     % input variables:
         % data_path 
@@ -12,12 +12,21 @@ function ACEpipeline_birds(data_path, output_dir, run_custom, ACE_path)
             % (boolean) whether to also run custom Ising algorithm
         % ACE_path
             % (string) where ACE is
+        % split
+            % (boolean) whether to split data
 
   %% LOGIC
     % add all code to path
         addpath(genpath(fileparts(fileparts(fileparts(mfilename('fullpath'))))));
-    % generate ACE input files, with a training + test split
-        generateACEinput_birds(data_path, output_dir); 
+    % generate ACE input files, with OR WITHOUT a training + test split
+        if exist('split', 'var') == 0
+             split = 1;
+        end
+        if (split)
+            generateACEinput_birds(data_path, output_dir);  
+        else
+            generateACEinput_birds_nosplit(data_path, output_dir);
+        end
     % run ACE & learning algorithm on the *.p file
         runACEonCohenData(output_dir, ACE_path);     
     % extract h & J parameters from *.j file & generate figures

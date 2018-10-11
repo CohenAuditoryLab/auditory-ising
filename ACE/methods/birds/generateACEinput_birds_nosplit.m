@@ -1,5 +1,6 @@
-function result_vector = generateACEinput_birds(data, output_dir)
+function result_vector = generateACEinput_birds_nosplit(data, output_dir)
 % generateACEinput_birds - generates *.p file for ACE algorithm from bird ...
+    % uses ALL data for training & testing; no split
     % ... song data
     
     % input variables:
@@ -18,7 +19,7 @@ function result_vector = generateACEinput_birds(data, output_dir)
             spikes_by_bin = spikes_by_bin';
         % process data
             % training/test split
-                p_train = .8;
+                p_train = 1;
                 T = size(spikes_by_bin,2);
                 train_logical = false(T, 1);
                 % change num_bins to jsut be train bins
@@ -26,7 +27,7 @@ function result_vector = generateACEinput_birds(data, output_dir)
                 train_logical(1:num_train_bins) = true;
                 train_logical = train_logical(randperm(T));
                 train_spikes_by_bin = spikes_by_bin(:,train_logical);
-                test_logical = ~train_logical;
+                test_logical = train_logical;
             % get firing rates
                 num_neurons = size(spikes_by_bin,1);
                 firing_rates = zeros([num_neurons 1]);
