@@ -2,6 +2,8 @@
     disp('Loading data.');
     sim_data_matt = importdata('/Users/mschaff/Documents/DISSERTATION/Ising/data/ACE/MC_result/MC_output_matt.dat');
     sim_data_eve = importdata('/Users/mschaff/Documents/DISSERTATION/Ising/data/ACE/MC_result/MC_output_eve.dat');
+    sim_data_indep = importdata('/Users/mschaff/Documents/DISSERTATION/Ising/data/ACE/MC_result/MC_output_indep.dat');
+    %TODO: MUST ADD INDEPENDENT MODEL!
     load('/Users/mschaff/Documents/DISSERTATION/Ising/data/ACE/Eve_birds/bin_by_bird.mat');
     data_bird = spikes_by_bin';
     disp('Data loaded.');
@@ -21,6 +23,10 @@
     % bird data
     disp('Counting triads over bird data');
     freq_data = count_pattern_freq(data_bird, triad_patterns_binary, num_patterns);
+    
+    % stimulatd data for independent model
+    disp('Counting triads over bird data simulated from independent model');
+    freq_indep = count_pattern_freq(sim_data_indep, triad_patterns_binary, num_patterns);
     
     % matt simulated data
     disp('Counting triads over bird data simulated from Matts .j file');
