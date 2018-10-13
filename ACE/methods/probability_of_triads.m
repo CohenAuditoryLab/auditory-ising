@@ -22,18 +22,22 @@
     
     % bird data
     disp('Counting triads over bird data');
-    freq_data = count_pattern_freq(data_bird, triad_patterns_binary, num_patterns);
+    freq_data = count_triad_freq(data_bird, triad_patterns_binary, num_patterns);
     
     % stimulatd data for independent model
     disp('Counting triads over bird data simulated from independent model');
-    freq_indep = count_pattern_freq(sim_data_indep, triad_patterns_binary, num_patterns);
+    freq_indep = count_triad_freq(sim_data_indep, triad_patterns_binary, num_patterns);
+    save('freq_indep.mat', 'freq_indep');
     
     % matt simulated data
     disp('Counting triads over bird data simulated from Matts .j file');
-    freq_matt = count_pattern_freq(sim_data_matt, triad_patterns_binary, num_patterns);
+    freq_matt = count_triad_freq(sim_data_matt, triad_patterns_binary, num_patterns);
+    save('freq_matt.mat', 'freq_matt');
+    
     % eve simulated data
     disp('Counting triads over bird data simulated from Eves .j file');
-    freq_eve = count_pattern_freq(sim_data_eve, triad_patterns_binary, num_patterns);
-
+    freq_eve = count_triad_freq(sim_data_eve, triad_patterns_binary, num_patterns);
+    save('freq_eve.mat', 'freq_eve');
+    
     % save triad frequencies
-    save('triad_frequencies.mat', 'freq_data', 'freq_eve', 'freq_matt');
+    save('triad_frequencies.mat', 'freq_data', 'freq_indep', 'freq_eve', 'freq_matt');
