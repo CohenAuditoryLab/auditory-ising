@@ -1,4 +1,4 @@
-function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad_output_dir)
+function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad_output_dir, test_logical_path)
     % Function: probability_of_triads2 - calculates probability of triads
     % between experimental binary data and simulated binary data based on
     % Ising models, with parameters in .j file
@@ -41,7 +41,15 @@ function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad
         data = importdata(data_path);
         data(data > 1) = 1;
         data(data < 1) = 0;
-        h_i =log(mean(data)./(1-mean(data)));
+        % now handle test_logical
+        if exist('test_logical_path', 'var') == 1
+            load(test_logical_path);
+            train_data = data(~test_logical,:);
+            h_i =log(mean(train_data)./(1-mean(train_data)));
+            data = data(test_logical,:);
+        else
+            h_i =log(mean(data)./(1-mean(data)));
+        end 
         h_i = h_i';
         fid = fopen([mc_j_files filesep 'indep.j'], 'wt');
         fprintf(fid,'%1g\n',h_i);
@@ -85,11 +93,11 @@ function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad
         freq_indep = count_triad_freq(sim_data_indep, triad_patterns_binary, num_patterns);
 
         % matt simulated data
-        disp('Counting triads over data simulated from Matts .j file');
+        disp('Counting triads over data simulated from pairwise model');
         freq_pairwise = count_triad_freq(sim_data_pairwise, triad_patterns_binary, num_patterns);
 
         % save triad frequencies
-        save([triad_output_dir 'triad_frequencies.mat'], 'freq_data', 'freq_indep', 'freq_pairwise');
+        save([triad_output_dir filesep 'triad_frequencies.mat'], 'freq_data', 'freq_indep', 'freq_pairwise');
 
         % plot triads
         figure();
