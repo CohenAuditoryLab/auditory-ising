@@ -83,7 +83,7 @@
         disp(['Negative Js: ' num2str(sum(J <0)) '/' num2str(numel(J))]);
 %% measure how sparse J are after mu=0
     %move 1st chunk & delete ACE output
-        destination = [base_output filesep '201801010_DOMO_test_reg_0'];
+        destination = '/Users/mschaff/Documents/DISSERTATION/Ising/output/ACE_local/20181012/20180807_Ripple2_d01/chunk_1__10000'; %[base_output filesep '201801010_DOMO_test_reg_0'];
         mkdir(destination);
         source = [base_output filesep '201801010_DOMO_test_reg_1'];
         copyfile(source, destination);
@@ -113,3 +113,14 @@
         disp(['Nonzero Js: ' num2str(sum(J ~=0)) '/' num2str(numel(J))]);
         disp(['Positive Js: ' num2str(sum(J >0)) '/' num2str(numel(J))]);
         disp(['Negative Js: ' num2str(sum(J <0)) '/' num2str(numel(J))]);
+        
+%% measure how sparse ACE & custom results are
+        custom_parameters = importdata('/Users/mschaff/Documents/DISSERTATION/Ising/output/ACE_local/20181012/20180807_Ripple2_d01/chunk_1__10000/figures_custom/custom-parameters.j');
+        ACE_parameters = importdata('/Users/mschaff/Documents/DISSERTATION/Ising/output/ACE_local/20181012/20180807_Ripple2_d01/chunk_1__10000/ACEinput-out.j');
+        num_neurons = 17;
+        J_custom = custom_parameters(numneurons+1:end);
+        J_ACE = ACE_parameters(numneurons+1:end);
+        disp('---- Sparsity of J: ACE (mu=1/numbins) vs. custom ----');
+        disp(['Nonzero Js: (ACE) ' num2str(sum(J_ACE ~=0)) '/' num2str(numel(J_custom)) ', (Custom) ' num2str(sum(J_custom ~=0)) '/' num2str(numel(J_custom)) ]);
+        disp(['Positive Js: (ACE) ' num2str(sum(J_ACE > 0)) '/' num2str(numel(J_custom)) ', (Custom) ' num2str(sum(J_custom > 0)) '/' num2str(numel(J_custom)) ]);
+        disp(['Negative Js: (ACE) ' num2str(sum(J_ACE < 0)) '/' num2str(numel(J_custom)) ', (Custom) ' num2str(sum(J_custom < 0)) '/' num2str(numel(J_custom)) ]);
