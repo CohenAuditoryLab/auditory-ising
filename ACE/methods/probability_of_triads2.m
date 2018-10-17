@@ -1,4 +1,4 @@
-function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad_output_dir, test_logical_path)
+function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad_output_dir, bird, test_logical_path)
     % Function: probability_of_triads2 - calculates probability of triads
     % between experimental binary data and simulated binary data based on
     % Ising models, with parameters in .j file
@@ -6,6 +6,9 @@ function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad
         %variables 
             % timestamp
                 time = datestr(now,'HH_MM_SS.FFF');
+                if (exist('bird', 'var') == 0)
+                   bird = true;
+                end
         % directories
             % create output directories for MC algorithm
             if (exist([mc_algorithm_path '/output'], 'dir') == 0)
@@ -38,7 +41,11 @@ function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad
         [~, j_name,~] = fileparts(j_file_path);
         new_pairwise_j_path = [mc_j_files filesep j_name '.j'];
     % independent model -- get indep model .j file of elements
-        data = importdata(data_path);
+        if (bird)
+            data = importdata(data_path);
+        else
+            data = load(data_path);
+        end
         data(data > 1) = 1;
         data(data < 1) = 0;
         % now handle test_logical
@@ -114,4 +121,8 @@ function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad
         legend([l1 l2], 'Independent', 'Pairwise', 'Location', 'SouthEast');
         hold off;
         print([triad_output_dir filesep 'triad_frequencies'], '-dpng');
+        close all;
+     % move mc output & j files
+        movefile(mc_output, [triad_output_dir filesep 'mc_output']);
+        movefile(mc_j_files, [triad_output_dir filesep 'j_files']);
 end
