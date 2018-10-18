@@ -1,4 +1,4 @@
-function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad_output_dir, bird, test_logical_path)
+function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad_output_dir, bird, test_logical_path, strict)
     % Function: probability_of_triads2 - calculates probability of triads
     % between experimental binary data and simulated binary data based on
     % Ising models, with parameters in .j file
@@ -8,6 +8,9 @@ function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad
                 time = datestr(now,'HH_MM_SS.FFF');
                 if (exist('bird', 'var') == 0)
                    bird = true;
+                end
+                if (exist('strict', 'var') == 0)
+                   strict = false;
                 end
         % directories
             % create output directories for MC algorithm
@@ -97,18 +100,23 @@ function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad
         % bird data
         disp('Counting triads over experimental data');
         freq_data = count_triad_freq(data, triad_patterns_binary, num_patterns);
+        if (strict); freq_data_strict = count_triad_freq_strict(data, triad_patterns_binary, num_patterns); end
 
         % stimulatd data for independent model
         disp('Counting triads over data simulated from independent model');
         freq_indep = count_triad_freq(sim_data_indep, triad_patterns_binary, num_patterns);
-
+        if (strict); freq_indep_strict = count_triad_freq_strict(sim_data_indep, triad_patterns_binary, num_patterns); end
+        
         % matt simulated data
         disp('Counting triads over data simulated from pairwise model');
         freq_pairwise = count_triad_freq(sim_data_pairwise, triad_patterns_binary, num_patterns);
-
+        if (strict); freq_pairwise_strict = count_triad_freq_strict(sim_data_pairwise, triad_patterns_binary, num_patterns); end
         % save triad frequencies
         save([triad_output_dir filesep 'triad_frequencies.mat'], 'freq_data', 'freq_indep', 'freq_pairwise');
-
+        if (strict)
+            save([triad_output_dir filesep 'triad_frequencies_strict.mat'], 'freq_data_strict', 'freq_indep_strict', 'freq_pairwise_strict'); 
+        end
+        
         % plot triads
         figure();
         l2 = loglog(freq_data, freq_pairwise, '.r', 'MarkerSize', 15);
@@ -124,6 +132,23 @@ function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad
         legend([l1 l2], 'Independent', 'Pairwise', 'Location', 'SouthEast');
         hold off;
         print([triad_output_dir filesep 'triad_frequencies'], '-dpng');
+        if (strict)
+            figure();
+            l2 = loglog(freq_data_strict, freq_pairwise_strict, '.r', 'MarkerSize', 15);
+            hold on;
+            l1 = loglog(freq_data_strict, freq_indep_strict, '.c', 'MarkerSize', 15);
+            set(gca, 'FontSize', 14);
+            title('Triad Frequencies - Strict');
+            xlabel('Observed Frequencies');
+            ylabel('Predicted Frequencies');
+            x1 = xlim;
+            lin = linspace(x1(1), x1(2), 100);
+            plot(lin, lin, 'k', 'Linewidth', .75);
+            legend([l1 l2], 'Independent', 'Pairwise', 'Location', 'SouthEast');
+            hold off;
+            print([triad_output_dir filesep 'triad_frequencies_strict'], '-dpng');
+           
+        end
         close all;
      % move mc output & j files
         movefile(mc_output, [triad_output_dir filesep 'mc_output']);
