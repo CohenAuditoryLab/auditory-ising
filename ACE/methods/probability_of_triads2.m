@@ -45,6 +45,7 @@ function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad
             data = importdata(data_path);
         else
             data = load(data_path);
+            data = data.spikes_by_bin';
         end
         data(data > 1) = 1;
         data(data < 1) = 0;
