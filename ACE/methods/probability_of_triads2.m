@@ -45,7 +45,8 @@ function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad
             data = importdata(data_path);
         else
             data = load(data_path);
-            data = cell2mat(data);
+            data = cell2mat(data.neuron_trains);
+            data = data';
             data(data > 0) = 1;
         end
         data(data > 1) = 1;
