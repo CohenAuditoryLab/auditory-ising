@@ -3,6 +3,7 @@ function JS_hist(h0, J, test_logical, filepath, figures_dir, zeros_and_ones)
 
 load([filepath filesep 'neuron_trains.mat']);
 neuron_trains = cell2mat(neuron_trains);
+neuron_trains(neuron_trains > 0) = 1;
 neuron_trains = double(neuron_trains == 1)'; % switch to 1 and 0 from 1 and -1
 test_neuron_trains = neuron_trains(test_logical,:);
 load([filepath filesep 'train_logical.mat']);
