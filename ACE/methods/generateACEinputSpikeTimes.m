@@ -138,6 +138,7 @@ function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, 
                         save([output_dir filesep 'spikes_by_bin.mat'], 'spikes_by_bin');
                     % save neuron_trains file (needed for plot methods)
                         spikes_by_bin(spikes_by_bin==0) = -1;
+                        spikes_by_bin(spikes_by_bin > 0) = 1;
                         neuron_trains = mat2cell(spikes_by_bin, ones([1 size(spikes_by_bin,1)]), [size(spikes_by_bin,2)]);
                         save([output_dir filesep 'neuron_trains.mat'], 'neuron_trains');
                     % save train logical
