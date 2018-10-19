@@ -1,4 +1,4 @@
-function ACEpipeline(data_path, output_dir, time_units, bin_size, use_chunks, run_custom, ACE_path, indep_c_ij)
+function ACEpipeline(data_path, output_dir, time_units, bin_size, use_chunks, run_custom, ACE_path, indep_c_ij, p_train)
 % ACEpipeline - runs ACE and generates result files & figures
     % input variables:
         % data_path 
@@ -32,7 +32,7 @@ function ACEpipeline(data_path, output_dir, time_units, bin_size, use_chunks, ru
     % add all code to path
         addpath(genpath(fileparts(fileparts(fileparts(mfilename('fullpath'))))));
     % generate ACE input files, with a training + test split
-        generateACEinputSpikeTimes(data_path, time_units, bin_size, output_dir,use_chunks, indep_c_ij); 
+        generateACEinputSpikeTimes(data_path, time_units, bin_size, output_dir,use_chunks, indep_c_ij, 1e4, p_train); 
     % run ACE & learning algorithm on the *.p file
         runACEonCohenData(output_dir, ACE_path);     
     % extract h & J parameters from *.j file & generate figures

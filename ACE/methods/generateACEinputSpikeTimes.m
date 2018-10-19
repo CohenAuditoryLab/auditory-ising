@@ -1,4 +1,4 @@
-function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, output_dir, chunk, indep_c_ij, chunk_size)
+function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, output_dir, chunk, indep_c_ij, chunk_size, p_train)
 % generateACEinput - generates *.p file for ACE algorithm from Cohen ...
     % ... spike time data
     
