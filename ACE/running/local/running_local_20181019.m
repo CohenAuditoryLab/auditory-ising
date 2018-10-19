@@ -68,4 +68,10 @@
         output_dir = [base_output filesep '20180807_Ripple2_d01_70_30']; plotACEresult(output_dir, 1, plot_all_elements);
         output_dir = [base_output filesep '20180807_Ripple2_d01_60_40']; plotACEresult(output_dir, 1, plot_all_elements);
         output_dir = [base_output filesep '20180807_Ripple2_d01_50_50']; plotACEresult(output_dir, 1, plot_all_elements);
+        output_dir = [base_output filesep '20180807_Ripple2_d01_wave_allpoints2']; plotACEresult(output_dir, 1, plot_all_elements);
         
+        
+        output_dir = [base_output filesep '20180807_Ripple2_d01_70_30_new'];
+        p_train = .7;
+        plot_all_elements = true;
+        ACEpipeline(data, output_dir, time_units, bin_size, use_chunks, run_custom, ACE_path, indep_c_ij, p_train, plot_all_elements);

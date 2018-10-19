@@ -1,4 +1,4 @@
-function ACEpipeline(data_path, output_dir, time_units, bin_size, use_chunks, run_custom, ACE_path, indep_c_ij, p_train)
+function ACEpipeline(data_path, output_dir, time_units, bin_size, use_chunks, run_custom, ACE_path, indep_c_ij, p_train, plot_all_points)
 % ACEpipeline - runs ACE and generates result files & figures
     % input variables:
         % data_path 
@@ -29,6 +29,9 @@ function ACEpipeline(data_path, output_dir, time_units, bin_size, use_chunks, ru
         if exist('indep_c_ij', 'var') == 0
           indep_c_ij = false;
         end
+        if exist('plot_all_points', 'var') == 0
+          plot_all_points = false;
+        end
     % add all code to path
         addpath(genpath(fileparts(fileparts(fileparts(mfilename('fullpath'))))));
     % generate ACE input files, with a training + test split
@@ -36,7 +39,7 @@ function ACEpipeline(data_path, output_dir, time_units, bin_size, use_chunks, ru
     % run ACE & learning algorithm on the *.p file
         runACEonCohenData(output_dir, ACE_path);     
     % extract h & J parameters from *.j file & generate figures
-        plotACEresult(output_dir, 1);
+        plotACEresult(output_dir, 1, plot_all_points);
     % if custom_algorithm should be run, run it
         if (run_custom) 
             runPlotCustomAlgorithm(output_dir);
