@@ -63,5 +63,28 @@
         
         
         
+     % output triads on Ripple dataset
+        ACE_output_dir = [base_output filesep '20180807_Ripple2_d01_wave'];
+        data_path = [ACE_output_dir filesep 'neuron_trains.mat'];
+        mc_algorithm_path = '/Users/mschaff/Documents/REPOS/QEE'; %precompiled
+        triad_output_dir = [ACE_output_dir filesep 'triads'];
+        test_logical_path = [ACE_output_dir filesep 'test_logical.mat'];
+        j_file_path = [ACE_output_dir filesep 'ACEinput-out.j']; 
+        bird = false; % it's neural data not bird data
+        probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad_output_dir, bird, test_logical_path);
         
+    % output STRICT triads on Ripple dataset 
+        triad_output_dir = [ACE_output_dir filesep 'triads_strict'];
+        probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad_output_dir, bird, test_logical_path, 1);
         
+    % output STRICT triads on bird dataset 
+        
+        ACE_output_dir = [base_output filesep 'birds'];
+        data_path = '/Users/mschaff/Documents/DISSERTATION/Ising/data/ACE/Eve_birds/data_allBirds_binary_2010M6.txt';
+        j_file_path = [ACE_output_dir filesep 'ACEinput-out.j']; 
+        mc_algorithm_path = '/Users/mschaff/Documents/REPOS/QEE'; %precompiled
+        test_logical_path = [ACE_output_dir filesep 'test_logical.mat'];
+        triad_output_dir = [ACE_output_dir filesep 'triads_strict'];
+        j_file_path = [ACE_output_dir filesep 'ACEinput-out.j'];
+        bird = true;
+        probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad_output_dir, bird, test_logical_path, 1);
