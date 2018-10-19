@@ -65,18 +65,18 @@ numpat = size(patterns, 1);
 numtrials = size(test_neuron_trains, 1);
 
 observed = zeros(1, numpat);
-ising = states/T;
-ind = states_ind/T;
+ising = states;%/T;
+ind = states_ind;%/T;
 
 for i = 1:numpat
     %disp(['Counting pattern number ' num2str(i) ' of ' num2str(numpat) '...']);
     count = sum(ismember(test_neuron_trains, patterns(i, :), 'rows'));
-    freq = count/numtrials/T;
+    freq = count/numtrials;%/T;
     observed(i) = freq;
     %disp(['Frequencies: ' num2str(freq)]);
 end 
 
-% save('pattern_freqs_subset.mat', 'observed', 'ising', 'ind');
+save([figures_dir filesep 'pattern_freqs_subset.mat'], 'observed', 'ising', 'ind');
 %% plot on log-log scale 
 
 figure();
@@ -85,9 +85,8 @@ hold on;
 
 l2 = loglog(observed, ising, '.b', 'MarkerSize', 10);
 set(gca, 'FontSize', 14);
-title('Whole Pattern Frequencies');
-xlabel('Observed Frequencies (Hz)');
-ylabel('Predicted Frequencies (Hz)');
+xlabel('Observed Pattern Probabilities per Bin');
+ylabel('Predicted Pattern Probabilities per Bin');
 x1 = xlim;
 lin = linspace(x1(1), x1(2), 100);
 plot(lin, lin, 'k', 'Linewidth', .75);
