@@ -1,6 +1,7 @@
-function pattern_frequencies_subset_all(h0, J, k, test_logical, filepath, figures_dir, zeros_and_ones)
+function pattern_frequencies_all(h0, J, test_logical, filepath, figures_dir, zeros_and_ones)
 
 %% load experimental data
+disp('Generating codewords probability figure on all elements.');
 load([filepath filesep 'neuron_trains.mat']);
 neuron_trains = cell2mat(neuron_trains);
 neuron_trains(neuron_trains > 0) = 1;
@@ -48,7 +49,7 @@ end
 h0_independent = atanh(mean(train_neuron_trains,2));
 h0_independent = transpose(h0_independent);
 %k = numel(h0);
-disp('Estimating patterin probabilities in independent model.');
+disp('Estimating pattern probabilities in independent model.');
 [sigm_ind, states_ind] = sample_ising_exact(h0_independent, zeros(k, k));
 
 %sigm = sigm == 1;
@@ -69,23 +70,18 @@ observed = zeros(1, numpat);
 ising = states;%/T;
 ind = states_ind;%/T;
 
-disp('Measuring patterin probabilities in data.');
-tic
+disp('Measuring pattern probabilities in data.');
 pb = CmdLineProgressBar('Progress: ');
+observed_trains = test_neuron_trains; observed_trains(observed_trains < 1) = 0; observed_trains(observed_trains > 0) = 1;
 for i = 1:numpat
     pb.print(i,numpat);
-    %disp(['Counting pattern number ' num2str(i) ' of ' num2str(numpat) '...']);
-    %count = sum(ismember(test_neuron_trains, patterns(i, :), 'rows'));
-    sum_pattern = sum(test_neuron_trains(:,logical(patterns(i, :))),2);
-    sum_nonpattern = sum(test_neuron_trains(:,~logical(patterns(i, :))),2);
-    freq = numel(find(sum_pattern == sum(patterns(i, :)) & sum_nonpattern == 0))/numtrials;
-    %freq = count/numtrials;%/T;
+    pattern = patterns(i, :); pattern(pattern < 1) = 0; pattern(pattern > 0) = 1;
+    sum_pattern = sum(observed_trains(:,logical(pattern)),2);
+    sum_nonpattern = sum(observed_trains(:,~logical(pattern)),2);
+    freq = numel(find(sum_pattern == sum(pattern) & sum_nonpattern == 0))/numtrials;
     observed(i) = freq;
-    %disp(['Frequencies: ' num2str(freq)]);
 end 
-toc
-
-save([figures_dir 'pattern_freqs_subset.mat'], 'observed', 'ising', 'ind');
+save([figures_dir filesep 'pattern_freqs_all.mat'], 'observed', 'ising', 'ind');
 %% plot on log-log scale 
 
 figure();
@@ -100,6 +96,6 @@ x1 = xlim;
 lin = linspace(x1(1), x1(2), 100);
 plot(lin, lin, 'k', 'Linewidth', .75);
 legend([l1 l2], 'Independent', 'Pairwise', 'Location', 'SouthEast');
-print([figures_dir filesep 'whole_pattern_frequencies'], '-dpng');
+print([figures_dir filesep 'whole_pattern_frequencies_all'], '-dpng');
 close all;
 end 

@@ -55,8 +55,17 @@
         output_dir = [base_output filesep '20180807_Ripple2_d01_70_30'];
         p_train = .7;
         ACEpipeline(data, output_dir, time_units, bin_size, use_chunks, run_custom, ACE_path, indep_c_ij, p_train);
-        
+        plotACEresult(output_dir, 1);
     % domo neural 20180807_Ripple2_d01 - 60:40 split
-        output_dir = [base_output filesep '20180807_Ripple2_d01_70_30'];
+        output_dir = [base_output filesep '20180807_Ripple2_d01_60_40'];
         p_train = .6;
         ACEpipeline(data, output_dir, time_units, bin_size, use_chunks, run_custom, ACE_path, indep_c_ij, p_train);
+        plotACEresult(output_dir, 1);
+        
+    % redo figures for 70:30 split and 60:40 split and 50:50 split; plot
+    % all elements for codeword figure
+        plot_all_elements = true; % as opposed to 
+        output_dir = [base_output filesep '20180807_Ripple2_d01_70_30']; plotACEresult(output_dir, 1, plot_all_elements);
+        output_dir = [base_output filesep '20180807_Ripple2_d01_60_40']; plotACEresult(output_dir, 1, plot_all_elements);
+        output_dir = [base_output filesep '20180807_Ripple2_d01_50_50']; plotACEresult(output_dir, 1, plot_all_elements);
+        

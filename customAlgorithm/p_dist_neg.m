@@ -13,10 +13,9 @@ probs = zeros(1, numpat);
 numtrials = size(subset, 1);
 
 for i = 1:numpat
-%     disp(['Counting pattern number ' num2str(i) ' of ' num2str(numpat) '...']);
-    count = sum(ismember(subset, sigm(i, :), 'rows'));
-    freq = count/numtrials;
+    sum_pattern = sum(subset(:,logical(sigm(i, :))),2);
+    sum_nonpattern = sum(subset(:,~logical(sigm(i, :))),2);
+    freq = numel(find(sum_pattern == sum(sigm(i, :)) & sum_nonpattern == 0))/numtrials;
     probs(i) = freq;
 end 
-
 end 

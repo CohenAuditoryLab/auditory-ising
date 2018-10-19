@@ -1,6 +1,9 @@
-function plotACEresult(output_dir, zeros_and_ones)
+function plotACEresult(output_dir, zeros_and_ones, all_elements)
     
     % initialize variables
+        if (exist('all_elements', 'var') == 0)
+            all_elements = false;
+        end
         % add path to respository
         addpath(genpath(fileparts(fileparts(fileparts(mfilename('fullpath'))))));
         % load data
@@ -58,7 +61,7 @@ function plotACEresult(output_dir, zeros_and_ones)
                 
                 % Pattern frequencies
                 pattern_frequencies_subset(h', j_matrix, 10, test_logical, output_dir, figures_dir, zeros_and_ones);
-                %pattern_frequencies_subset_all(h', j_matrix, 10, test_logical, output_dir, figures_dir, zeros_and_ones);
+                if (all_elements); pattern_frequencies_all(h', j_matrix, test_logical, output_dir, figures_dir, zeros_and_ones); end
                 
                 % JS divergence
                 JS_hist(h', j_matrix, test_logical, output_dir, figures_dir, zeros_and_ones);

@@ -1,6 +1,7 @@
 function pattern_frequencies_subset(h0, J, k, test_logical, filepath, figures_dir, zeros_and_ones)
 
 %% load experimental data
+disp('Generating codewords probability figure on 10 random elements.');
 load([filepath filesep 'neuron_trains.mat']);
 neuron_trains = cell2mat(neuron_trains);
 neuron_trains(neuron_trains > 0) = 1;
@@ -65,15 +66,17 @@ numpat = size(patterns, 1);
 numtrials = size(test_neuron_trains, 1);
 
 observed = zeros(1, numpat);
+freq_2 = zeros(1, numpat);
 ising = states;%/T;
 ind = states_ind;%/T;
 
+observed_trains = test_neuron_trains; observed_trains(observed_trains < 1) = 0; observed_trains(observed_trains > 0) = 1;
 for i = 1:numpat
-    %disp(['Counting pattern number ' num2str(i) ' of ' num2str(numpat) '...']);
-    count = sum(ismember(test_neuron_trains, patterns(i, :), 'rows'));
-    freq = count/numtrials;%/T;
+    pattern = patterns(i, :); pattern(pattern < 1) = 0; pattern(pattern > 0) = 1;
+    sum_pattern = sum(observed_trains(:,logical(pattern)),2);
+    sum_nonpattern = sum(observed_trains(:,~logical(pattern)),2);
+    freq = numel(find(sum_pattern == sum(pattern) & sum_nonpattern == 0))/numtrials;
     observed(i) = freq;
-    %disp(['Frequencies: ' num2str(freq)]);
 end 
 
 save([figures_dir filesep 'pattern_freqs_subset.mat'], 'observed', 'ising', 'ind');
