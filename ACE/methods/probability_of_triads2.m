@@ -1,4 +1,4 @@
-function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad_output_dir, bird, test_logical_path, strict)
+function output = probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad_output_dir, bird, test_logical_path, strict)
     % Function: probability_of_triads2 - calculates probability of triads
     % between experimental binary data and simulated binary data based on
     % Ising models, with parameters in .j file
@@ -117,6 +117,16 @@ function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad
             save([triad_output_dir filesep 'triad_frequencies_strict.mat'], 'freq_data_strict', 'freq_indep_strict', 'freq_pairwise_strict'); 
         end
         
+        % output
+            output = struct;
+            output.freq_data = freq_data;
+            output.freq_indep = freq_indep;
+            output.freq_pairwise = freq_pairwise;
+            if (strict) 
+                output.freq_data_strict = freq_data_strict;
+                output.freq_indep_strict = freq_indep_strict;
+                output.freq_pairwise_strict = freq_pairwise_strict;
+            end
         % plot triads
         figure();
         l2 = loglog(freq_data, freq_pairwise, '.r', 'MarkerSize', 15);
@@ -151,6 +161,6 @@ function probability_of_triads2(data_path, j_file_path, mc_algorithm_path, triad
         end
         close all;
      % move mc output & j files
-        movefile(mc_output, [triad_output_dir filesep 'mc_output']);
+        rmdir(mc_output, 's');
         movefile(mc_j_files, [triad_output_dir filesep 'j_files']);
 end
