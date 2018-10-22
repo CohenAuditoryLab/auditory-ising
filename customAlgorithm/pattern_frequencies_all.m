@@ -1,4 +1,4 @@
-function pattern_frequencies_all(h0, J, test_logical, filepath, figures_dir, zeros_and_ones)
+function [observed, ising, ind] = pattern_frequencies_all(h0, J, test_logical, filepath, figures_dir, zeros_and_ones)
 
 %% load experimental data
 disp('Generating codewords probability figure on all elements.');
