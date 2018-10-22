@@ -20,14 +20,14 @@
             end
         end
     end
-% get max across columns
+%% get max across columns
     [M,I] = max(j_matrices);
     histogram(I);
     ylabel('Number of runs');
     xlabel('i-j combination with max coupling parameter');
     print([figures_dir filesep 'max_J_histogram'], '-dpng');
     close all;
-% plot heatmap of variance
+%% plot heatmap of variance
     variances = var(j_matrices');
     mean_J = mean(j_matrices');
     variances_map = zeros([N N]);
@@ -48,7 +48,7 @@
     title('Variance of J parameters');
     print([figures_dir filesep 'variance_J_parameters'], '-dpng');
     close all;
-% create figures of values per combo
+%% create figures of values per combo
     x = variances';
     y = mean_J';
     scatter(x, y);
@@ -60,7 +60,7 @@
     ylabel('Mean of J parameters (100 runs of ACE)');
     print([figures_dir filesep 'mean_variance_J_parameters'], '-dpng');
     close all;
-% create histograms of values per combo
+%% create histograms of values per combo
     J_hist_dir = [figures_dir filesep 'J_parameter_histograms'];
     if (exist('J_hist_dir', 'dir') == 0) 
         mkdir(J_hist_dir);
@@ -80,7 +80,7 @@
             close all;
         end
     end
-% generate correlations between J vectors heatmap
+%% generate correlations between J vectors heatmap
     corrs = corrcoef(j_matrices);
     heatmap(corrs);
     ylabel('Runs of ACE');
@@ -88,7 +88,23 @@
     title('Pairwise Pearson Correlations (R) Between J Parameter Vectors Across 100 Runs of ACE');
     print([figures_dir filesep 'correlations_J_parameters'], '-dpng');
     close all;
-% visualize clusters
+    
+%% generate cosine similarity between J vectors heatmap
+    cosine_similarity = zeros([num_runs num_runs]);
+    for i=1:num_runs
+        for j=i+1:num_runs
+            cosine_similarity(i,j) = getCosineSimilarity(j_matrices(:,i), j_matrices(:,j));
+        end
+    end
+    cosine_similarity = cosine_similarity + cosine_similarity';
+    cosine_similarity(1:1+size(cosine_similarity,1):end) =1;
+    heatmap(cosine_similarity);
+    ylabel('Runs of ACE');
+    xlabel('Runs of ACE');
+    title('Pairwise Cosine Similarity Between J Parameter Vectors Across 100 Runs of ACE');
+    print([figures_dir filesep 'cosinesimilarity_J_parameters'], '-dpng');
+    close all;
+%% visualize clusters of correlations
     addpath(genpath('/Users/mschaff/Documents/MATLAB/chen_network_analysis/BCT_code'));
     [Ci Q] = modularity_und(corrs);
     [X,Y,indsort] = grid_communities(Ci);
@@ -99,7 +115,17 @@
     print([figures_dir filesep 'correlations_J_parameters_clustered'], '-dpng');
     close all;
     
-% JS Divergence between triad distributions
+%% visualize clusters of cosine similarity
+    addpath(genpath('/Users/mschaff/Documents/MATLAB/chen_network_analysis/BCT_code'));
+    [Ci Q] = modularity_und(cosine_similarity);
+    [X,Y,indsort] = grid_communities(Ci);
+    heatmap(indsort, indsort, cosine_similarity(indsort,indsort));
+    ylabel('Runs of ACE');
+    xlabel('Runs of ACE');
+    title({'Pairwise Cosine Similarity Between J Parameter Vectors Across 100 Runs of ACE','Clustered & Sorted'});
+    print([figures_dir filesep 'cosinesimilarity_J_parameters_clustered'], '-dpng');
+    close all;
+%% JS Divergence between triad distributions
 JSD_ind = zeros([num_runs 1]);
 JSD_pairwise = zeros([num_runs 1]);
 for r=1:num_runs
