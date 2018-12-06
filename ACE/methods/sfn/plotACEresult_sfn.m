@@ -47,15 +47,9 @@ function plotACEresult(output_dir, zeros_and_ones, all_elements)
                 end
                 
                 % J_ij heatmap
-                figure;
-                
-                 heatmap(j_matrix, 'FontSize', 16);
-                  print([figures_dir filesep 'Jij.eps'], '-depsc');
-                title('Fit Interaction Parameter Values (J_ij)');
-                xlabel('Neurons'); ylabel('Neurons');
-                %addTitle(h, 'Example Heat Map', 'FontSize', 14,'FontAngle','Italic');
+                heatmap(j_matrix);
+                title('J_ij');
                 saveas(gcf,[figures_dir filesep 'Jij.jpg']);
-               
                 close all;
                 
                 % C_ij heatmap
@@ -66,7 +60,7 @@ function plotACEresult(output_dir, zeros_and_ones, all_elements)
                 close all;
                 
                 % Pattern frequencies
-%                pattern_frequencies_subset(h', j_matrix, 10, test_logical, output_dir, figures_dir, zeros_and_ones);
+                pattern_frequencies_subset(h', j_matrix, 10, test_logical, output_dir, figures_dir, zeros_and_ones);
                 if (all_elements) 
                     pattern_frequencies_subset_all(h', j_matrix, 10, test_logical, output_dir, figures_dir, zeros_and_ones); 
                 end
@@ -77,7 +71,4 @@ function plotACEresult(output_dir, zeros_and_ones, all_elements)
                 hold off;
                 close all;
         end
-        
-        % general codeword figure
-        
 end

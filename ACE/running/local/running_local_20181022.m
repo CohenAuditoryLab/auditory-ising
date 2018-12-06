@@ -29,8 +29,9 @@
 
      % test J parameter effect on ACE output
         setStandardACEParams;
-        setStandardTriadParams;
+        
         data = [core_dir filesep 'data' filesep 'ACE' filesep '20180807_Ripple2_d01' filesep 'Domo_20180807_Ripple2_d01_finalclusters_firsthalf.mat'];
         output_dir = [base_output filesep '20180807_Ripple2_d01_Jparam_test'];
+        setStandardTriadParams;
         p_train = .6;
         testParameterEffectOnACE(data, output_dir, time_units, bin_size, ACE_path, mc_algorithm_path, p_train);

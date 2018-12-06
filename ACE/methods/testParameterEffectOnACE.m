@@ -39,6 +39,7 @@ function testParameterEffectOnACE(data_path, output_dir, time_units, bin_size, A
         else
             r_start = 1;
         end
+        r_start = 15;
     % run ACE once normally (60:40)
         original_output_dir = [output_dir filesep 'original_run'];
         if (exist(original_output_dir, 'dir')==0)      
