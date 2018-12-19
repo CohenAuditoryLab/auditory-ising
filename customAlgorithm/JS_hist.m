@@ -12,6 +12,10 @@ n = size(test_neuron_trains, 1);
 
 %% produce all combinations of 10 neurons firing 
 N = size(test_neuron_trains, 2);
+if (N < 10) 
+    disp('Not enough neurons to do JS_hist');
+    return;
+end
 i = 10;
 patterns = [];
 
