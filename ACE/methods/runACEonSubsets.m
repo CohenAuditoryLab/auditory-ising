@@ -4,7 +4,7 @@ function runACEonSubsets(data_path, output_dir)
     num_neurons = numel(unique_neurons);
     % get current subset size; if none, then subset = number of neurons
         contents = dir(output_dir);
-        last_subset = 100;
+        last_subset = false;
         for i=1:numel(contents)
             if(regexp(contents(i).name, '(num_)\d') ==1)
                 if (cell2mat(regexp(contents(i).name,'\d*','Match')) < last_subset) 
@@ -12,7 +12,7 @@ function runACEonSubsets(data_path, output_dir)
                 end
             end
         end
-        if (last_subset ~= 0)
+        if (last_subset ~= false)
             subset_num = last_subset - 1;
         else
             subset_num = num_neurons; % 
@@ -22,7 +22,7 @@ function runACEonSubsets(data_path, output_dir)
     while subset_num > 5 
         % get random subset
             subset = datasample(unique_neurons,subset_num,'Replace', false);
-            subset_index = ismember(g(:,1), subset);
+            subset_index = ismember(original_g(:,1), subset);
             subset_data = original_g(subset_index,:);
             g = subset_data;
             % save new data
