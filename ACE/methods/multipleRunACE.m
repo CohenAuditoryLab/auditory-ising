@@ -1,4 +1,4 @@
-function multipleRunACE(data_path, output_dir, time_units, bin_size, ACE_path, mc_algorithm_path, p_train)
+function multipleRunACE(data_path, output_dir, time_units, bin_size, ACE_path, mc_algorithm_path, p_train, num_iterations, triads)
 % multipleRunACE - runs ACE 100 times
     % input variables:
         % data_path 
@@ -18,7 +18,14 @@ function multipleRunACE(data_path, output_dir, time_units, bin_size, ACE_path, m
         % p_train
             % (double) decimal fraction of training data vs. test data
 % run ACE 100 times
-   
+    % do triads
+        if (exist('triads', 'var') == 0)
+            triads = false;
+        end
+    % num iterations
+        if (exist('num_iterations', 'var') == 0)
+            num_iterations = 100;
+        end
     % add all code to path
         addpath(genpath(fileparts(fileparts(fileparts(mfilename('fullpath'))))));
     % load output
@@ -36,7 +43,7 @@ function multipleRunACE(data_path, output_dir, time_units, bin_size, ACE_path, m
             i_start = 1;
         end
         
-    for i=i_start:100  
+    for i=i_start:num_iterations  
         disp(['Run ACE multiple, iteration #' num2str(i)]);
         tic
         % initialize output
@@ -54,7 +61,9 @@ function multipleRunACE(data_path, output_dir, time_units, bin_size, ACE_path, m
             output.h = h;
             output.J = j_matrix;
         % triads
-            output.triads = probability_of_triads2([sub_output_dir filesep 'neuron_trains.mat'], [sub_output_dir filesep 'ACEinput-out.j'], mc_algorithm_path, [sub_output_dir filesep 'triads'], 0, [sub_output_dir filesep 'test_logical.mat'], 0);
+            if (triads)
+                output.triads = probability_of_triads2([sub_output_dir filesep 'neuron_trains.mat'], [sub_output_dir filesep 'ACEinput-out.j'], mc_algorithm_path, [sub_output_dir filesep 'triads'], 0, [sub_output_dir filesep 'test_logical.mat'], 0);
+            end
             output_master = [output_master; output];
             save([output_dir filesep 'multipleRunACE_output.mat'], 'output_master');
             toc
