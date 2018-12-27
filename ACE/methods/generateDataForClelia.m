@@ -2,6 +2,7 @@ function generateDataForClelia(data, output_dir)
     % get matrix of spike trains by neuron
     load(data);
     % invert matrix 
+    spikes_by_bin(spikes_by_bin > 0) = 1;
     a = spikes_by_bin.';
     % get placeholder text string to put in fprint
     placeholder_string = '';
