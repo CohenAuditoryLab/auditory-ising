@@ -51,9 +51,9 @@ function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, 
         % set bin sizes
             max_time = double(max(spike_times))*time_multiplier;
             num_bins = round(max_time/bin_size) + 1;
-            bins = 1:num_bins;
+            bins = 0:num_bins;
         % bin data
-            spikes_by_bin = zeros(num_neurons, num_bins);
+            spikes_by_bin = zeros(num_neurons, num_bins + 1);
             for i = 1:num_neurons % 1 to num clusters
                 % get spike times of the cell
                 cluster_spikes = double(spike_times(find(spike_neurons==unique_neurons(i)))).*1e-3; % now in seconds
@@ -105,7 +105,7 @@ function result_vector = generateACEinputSpikeTimes(data, time_units, bin_size, 
                     corr_placeholder_vector = zeros([vector_length 1]);
                     result_vector = vertcat(firing_rates, corr_placeholder_vector);
                     index = num_neurons;
-                    c_ij = zeros([20 20]);
+                    c_ij = zeros([num_neurons num_neurons]);
                     for i=1:num_neurons
                         for j=1:num_neurons
                             if(i==j || i>j)

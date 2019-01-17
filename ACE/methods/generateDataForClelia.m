@@ -11,6 +11,8 @@ function generateDataForClelia(data, output_dir)
     end
     % save file
     fid = fopen([output_dir filesep 'dataForCelia.txt'], 'wt');
-    fprintf(fid,[placeholder_string '\n'],a);
+    for i=1:size(a,1)
+        fprintf(fid,[placeholder_string '\n'],a(i,:));
+    end
     fclose(fid);
 end
