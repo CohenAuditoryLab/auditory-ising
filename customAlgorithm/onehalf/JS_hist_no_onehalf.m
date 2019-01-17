@@ -1,4 +1,4 @@
-function JS_hist(h0, J, test_logical, filepath)
+function JS_hist(h0, J, test_logical, filepath, figures_dir)
 %% Load data 
 
 load([filepath filesep 'neuron_trains.mat']);
@@ -27,9 +27,10 @@ obs_is = zeros(1, 250); % observed vs. ising model
 obs_ind = zeros(1, 250); % observed vs. independent model
 
 % for each pattern of 10 neurons 
+pb = CmdLineProgressBar(['Computing JS divergence across '  num2str(size(patterns,1)) ' patterns: ']); 
 for i = 1:size(patterns,1)
-    disp(['Computing divergence for ' num2str(i) ' of ' num2str(size(patterns,1))]);
-    
+    %disp(['Computing divergence for ' num2str(i) ' of ' num2str(size(patterns,1))]);
+    pb.print(i,size(patterns,1));
     % select those neurons from distribution
     subset = neuron_trains(:,logical(patterns(i,:)));
     h0_subset = h0(logical(patterns(i,:)));
@@ -64,7 +65,7 @@ for i = 1:size(patterns,1)
     %%%% JS divergence observed vs. independent 
     % extract appropriate spike trains 
     P = observed;
-    h0_independent = log(mean(subset, 1)./(1-mean(subset, 1)))*0.5;
+    h0_independent = log(mean(subset, 1)./(1-mean(subset, 1)));
     [~, Q] = sample_ising_exact(h0_independent, zeros(10, 10));
     
     % throw out zero values 
@@ -91,7 +92,7 @@ end
 % save variables 
 % filecomps = strsplit(filepath, filesep);
 % cd(filecomps{1});
-save([filepath filesep 'JS_patterns.mat'], 'obs_is', 'obs_ind');
+save([figures_dir filesep 'JS_patterns.mat'], 'obs_is', 'obs_ind');
 
 %% plot histograms 
 
@@ -124,7 +125,7 @@ hold on;
 log_obs_ind = log10(obs_ind);
 histogram(log_obs_ind, bins, 'normalization', 'pdf');
 
-xlabel('JS Divergence (bits)');
+xlabel('JS Divergence (bits) - no 1/2');
 ylabel('Probability Density');
 set(gca, 'FontSize', 14);
 legend({'Ising', 'Independent'});
@@ -137,6 +138,7 @@ for b=1:numel(lab)
 end 
 
 set(gca, 'XTickLabel', labels);
-print([filepath filesep 'JS_hist'], '-dpng');
-
+print([figures_dir filesep 'JS_hist_no_onehalf'], '-dpng');
+close all;
+hold off;
 end 
